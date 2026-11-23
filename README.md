@@ -7,7 +7,7 @@ Tamweel Lite studies how well machine learning models can rank loan applications
 **Program** Advanced Machine Learning (SDA-DSC-211), SDAIA Academy
 
 
-[Day 1 baseline followed by Day 2 validation and tuning] (https://colab.research.google.com/github/aljuharaalshagri/Tamweel_SDAIA_AdvanceML/blob/main/notebooks/02_validation_tuning.ipynb) 
+[Day 1 baseline followed by Day 2 validation and tuning](https://github.com/aljuharaalshagri/Tamweel_SDAIA_AdvanceML/blob/main/notebooks/Tamweel_aljuharaalshagri.ipynb)
 
 ## Project overview
 
