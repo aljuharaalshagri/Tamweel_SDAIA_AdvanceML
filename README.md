@@ -68,10 +68,8 @@ Yes. All 11 code cells in my saved notebook ran in order. The final cell exporte
 
 I chose Logistic Regression as my initial baseline. It had the highest ROC-AUC (0.821), and its average precision (0.326) was only 0.008 below XGBoost's (0.334). That trade-off favored the simpler model for the next comparison. [Model scores](artifacts/day1_model_comparison.csv)
 
-## Git workflow
 
-Keep each day's executed notebook, matching outputs and README answer in one commit. Review the staged files with `git diff --cached --stat` before committing. The Day 1 commit can be titled `Organize Day 1 model comparison and results`.
 
 ## Training-program attribution
 
-This project is part of SDAIA Academy's Advanced Machine Learning program (SDA-DSC-211). Meaad Al-Marri prepared the course template, synthetic data and lab materials. This submission contains my executed notebook, model comparison and interpretation. [SDAIA Academy](https://github.com/SDAIAAcademy) · [Course template](https://github.com/almiyead-rgb/sda-dsc-211-student-template) · [Day 1 submission guide](https://github.com/almiyead-rgb/sda-dsc-211-student-template/blob/main/DAY1_GUIDE.md)
+This project is part of SDAIA Academy's Advanced Machine Learning program (SDA-DSC-211) with Mrs. Meaad Al-Marri. [SDAIA Academy](https://github.com/SDAIAAcademy) ·
