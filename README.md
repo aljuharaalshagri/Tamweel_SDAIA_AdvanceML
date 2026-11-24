@@ -126,13 +126,13 @@ The Day 4 workflow separates model fitting, calibration, policy selection and ev
 
 #### Permutation importance
 
-![Training gain and evaluation average-precision decrease after permuting each feature or feature group.](artifacts/artifacts_Day4/permutation_importance.png)
+![Training gain and evaluation average-precision decrease after permuting each feature or feature group.](artifacts/artifacts_Day4/artifacts/permutation_importance.png)
 
 *Training gain is shown beside the decrease in evaluation average precision after shuffling each feature or group. Whiskers show repeat standard deviation.*
 
 #### Global SHAP beeswarm
 
-![Global SHAP contributions in raw log-odds for 300 sampled evaluation requests.](artifacts/artifacts_Day4/shap_beeswarm.png)
+![Global SHAP contributions in raw log-odds for 300 sampled evaluation requests.](artifacts/artifacts_Day4/artifacts/shap_beeswarm.png)
 
 *Each dot represents a sampled evaluation request. Horizontal position shows the signed SHAP contribution in raw log-odds; color represents the feature value.*
 
@@ -140,7 +140,7 @@ The Day 4 workflow separates model fitting, calibration, policy selection and ev
 
 For `TR-009585`, the highest-scoring request within the SHAP sample, the leading positive contributions were `bureau_score` (+2.2693), `dti` (+1.1981) and `loan_amount_sar` (+0.2007). Its raw score was 0.9031 and its calibrated probability was 0.4795. None of the three displayed reasons used an imputed value. These are explanations of the fitted model's behavior, with no causal or real-lending claim.
 
-![Local SHAP waterfall explaining the raw log-odds of application TR-009585.](artifacts/artifacts_Day4/shap_waterfall.png)
+![Local SHAP waterfall explaining the raw log-odds of application TR-009585.](artifacts/artifacts_Day4/artifacts/shap_waterfall.png)
 
 *The waterfall reconstructs the request's raw log-odds from the baseline and feature contributions. The calibrated probability is computed separately.*
 
@@ -154,13 +154,13 @@ For `TR-009585`, the highest-scoring request within the SHAP sample, the leading
 | Expected calibration error | 0.146871 | 0.022486 |
 | Log loss | 0.357993 | 0.246749 |
 
-Calibration lowered all three reported probability-error measures and preserved the ranking metrics. Sparse reliability bins remain noisy. In 200 paired customer-cluster bootstrap replicates, the 95% interval for the Brier change after calibration was [-0.054177, -0.037409]. These intervals hold the fitted model and calibrator fixed. [Saved metric tables and intervals](artifacts/artifacts_Day4/day4_saved_output_summary.json)
+Calibration lowered all three reported probability-error measures and preserved the ranking metrics. Sparse reliability bins remain noisy. In 200 paired customer-cluster bootstrap replicates, the 95% interval for the Brier change after calibration was [-0.054177, -0.037409]. These intervals hold the fitted model and calibrator fixed. [Saved metric tables and intervals](artifacts/artifacts_Day4/artifacts/day4_saved_output_summary.json)
 
-![Reliability curves and bin counts before and after sigmoid calibration on the Day 4 evaluation role.](artifacts/artifacts_Day4/reliability_curve.png)
+![Reliability curves and bin counts before and after sigmoid calibration on the Day 4 evaluation role.](artifacts/artifacts_Day4/artifacts/reliability_curve.png)
 
 ### Stability of the results
 
-![Customer-cluster bootstrap intervals for average precision and the distribution of Brier-score changes after calibration.](artifacts/artifacts_Day4/stability_summary.png)
+![Customer-cluster bootstrap intervals for average precision and the distribution of Brier-score changes after calibration.](artifacts/artifacts_Day4/artifacts/stability_summary.png)
 
 *The 200 customer-cluster bootstrap replicates keep the fitted model and calibrator fixed. The left panel shows the 95% AP intervals; the right panel shows the Brier change after calibration, where negative values indicate improvement.*
 
@@ -175,9 +175,9 @@ The policy-selected raw threshold was approximately 0.588195, transported to app
 
 The recorded status is `CAPACITY_REVIEW_REQUIRED`. Q4's risk flags alone also exceed capacity by two applications, so removing the diagnostic band would not resolve every breach. A revised policy needs selection on development or policy data and assessment on a new held-out period. The current evaluation set must not be reused for retuning.
 
-![Review counts against the 12 percent capacity limit for each evaluation quarter.](artifacts/artifacts_Day4/review_zone.png)
+![Review counts against the 12 percent capacity limit for each evaluation quarter.](artifacts/artifacts_Day4/artifacts/review_zone.png)
 
-The reflection returned `READY_FOR_REVIEW` with no missing fields. The export printed `TECHNICAL_READY | READY_FOR_REVIEW | LIVE | CPU`, alongside `CAPACITY_REVIEW_REQUIRED`. The readiness labels describe completed educational work; they do not indicate capacity acceptance or deployment approval. [Completed reflection](artifacts/artifacts_Day4/day4_reflection.json)
+The reflection returned `READY_FOR_REVIEW` with no missing fields. The export printed `TECHNICAL_READY | READY_FOR_REVIEW | LIVE | CPU`, alongside `CAPACITY_REVIEW_REQUIRED`. The readiness labels describe completed educational work; they do not indicate capacity acceptance or deployment approval. [Completed reflection](artifacts/artifacts_Day4/artifacts/day4_reflection.json)
 
 ## Repository structure
 
@@ -187,7 +187,7 @@ The reflection returned `READY_FOR_REVIEW` with no missing fields. The export pr
 | [Day 1 artifacts](artifacts/artifacts_Day1/) | Model comparison, held-out predictions, split assignments, figures and run records |
 | [Day 2 artifacts](artifacts/artifacts_Day2/) | Leakage audits, validation scores, tuning history, OOF predictions and provenance |
 | [Day 3 artifacts](artifacts/artifacts_Day3/) | Strategy comparison, exact threshold, loss sweep, period and regional audits, reflections and figures |
-| [Day 4 evidence](artifacts/artifacts_Day4/) | Six original notebook figures, extracted displayed results, completed reflection and a source transcript |
+| [Day 4 evidence](artifacts/artifacts_Day4/) | Six figures, extracted displayed results, completed reflection and a source transcript |
 | [Day 1 report](reports/DAY1_TECHNICAL_REPORT.md) | The baseline model choice and held-out evidence |
 | [Day 2 report](reports/DAY2_TECHNICAL_REPORT.md) | Leakage controls and validation on later applications |
 | [Day 3 report](reports/DAY3_TECHNICAL_REPORT.md) | The review policy, capacity tradeoff and interpretation of the selected threshold |
