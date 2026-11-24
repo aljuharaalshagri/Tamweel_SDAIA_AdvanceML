@@ -6,10 +6,8 @@ Author: Aljuhara Alshagri
 
 Program: Advanced Machine Learning (SDA-DSC-211), SDAIA Academy
 
-| Notebook | Contents | Open in Colab |
-| --- | --- | --- |
-| [Tamweel capstone](notebooks/Tamweel_aljuharaalshagri.ipynb) | Day 1 baseline, Day 2 validation, Day 3 review policy, and Day 4 explanations and calibration | [Run Days 1-4](https://colab.research.google.com/github/aljuharaalshagri/Tamweel_SDAIA_AdvanceML/blob/main/notebooks/Tamweel_aljuharaalshagri.ipynb) |
-| [Day 3 decision thresholds](notebooks/03_decision_thresholds.ipynb) | The self-contained Day 3 analysis and completed reflections | [Run Day 3](https://colab.research.google.com/github/aljuharaalshagri/Tamweel_SDAIA_AdvanceML/blob/main/notebooks/03_decision_thresholds.ipynb) |
+
+[Tamweel capstone](notebooks/Tamweel_aljuharaalshagri.ipynb) | Day 1 baseline, Day 2 validation, Day 3 review policy, and Day 4 explanations and calibration | [Run Days 1-4](https://colab.research.google.com/github/aljuharaalshagri/Tamweel_SDAIA_AdvanceML/blob/main/notebooks/Tamweel_aljuharaalshagri.ipynb) 
 
 ## Project overview
 
@@ -186,7 +184,6 @@ The reflection returned `READY_FOR_REVIEW` with no missing fields. The export pr
 | Location | Contents |
 | --- | --- |
 | [Combined notebook](notebooks/Tamweel_aljuharaalshagri.ipynb) | The complete Day 1-4 workflow, saved model outputs and completed reflections |
-| [Day 3 notebook](notebooks/03_decision_thresholds.ipynb) | A self-contained entry point for the review-policy analysis |
 | [Day 1 artifacts](artifacts/artifacts_Day1/) | Model comparison, held-out predictions, split assignments, figures and run records |
 | [Day 2 artifacts](artifacts/artifacts_Day2/) | Leakage audits, validation scores, tuning history, OOF predictions and provenance |
 | [Day 3 artifacts](artifacts/artifacts_Day3/) | Strategy comparison, exact threshold, loss sweep, period and regional audits, reflections and figures |
@@ -198,7 +195,7 @@ The reflection returned `READY_FOR_REVIEW` with no missing fields. The export pr
 
 ## Quick start
 
-1. To run this downloaded version, upload `notebooks/Tamweel_aljuharaalshagri.ipynb` to Google Colab for the full capstone, or upload `notebooks/03_decision_thresholds.ipynb` for Day 3 alone. The **Run Days 1-4** and **Run Day 3** links above load the files on GitHub's `main` branch and reflect this version after it is uploaded there. Day 3 prepares its own data and models, so it does not require running Days 1 and 2 first. Select a CPU runtime; the saved results use fast mode.
+1. To run this downloaded version, upload `notebooks/Tamweel_aljuharaalshagri.ipynb` to Google Colab for the full capstone. The **Run Days 1-4** link above load the files on GitHub's `main` branch and reflect this version after it is uploaded there. Day 3 prepares its own data and models, so it does not require running Days 1 and 2 first. Select a CPU runtime; the saved results use fast mode.
 2. Choose **Runtime > Run all**. If dependency installation restarts the session, reconnect and choose **Run all** again.
 3. For Day 2, check for `Day 2 setup verified`. The saved run completed eight tuning trials and the reflection check returned `READY_FOR_REVIEW` with no missing answers. [Day 2 run](artifacts/artifacts_Day2/day2_run.json) · [Day 2 reflection](artifacts/artifacts_Day2/day2_reflection.json)
 4. For Day 3, keep `MODEL_FOR_DECISION = "weighted"` to reproduce the documented policy. Check that the source is `LIVE`, OOF coverage includes all 5,039 eligible applications, and every period passes its capacity audit. An `EDUCATIONAL_EXAMPLE` fallback is for discussion only.
