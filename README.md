@@ -73,7 +73,7 @@ For tuning, I reserved 1,935 earlier applications whose customers were absent fr
 
 ## Day 3 review policy and results
 
-The Day 3 run produced out-of-fold (OOF) scores for 5,039 later applications, including 384 defaults (7.62%). Each validation fold uses a model trained on earlier applications with mature 90-day outcomes and no customers shared with that fold's validation set. Class weighting and oversampling affect training only; the validation applications retain their observed default rate. [Fold audit](artifacts/artifacts_Day3/day3_fold_audit.csv) · [Prediction coverage](artifacts/artifacts_Day3/day3_oof_coverage.csv)
+The Day 3 run produced out-of-fold (OOF) scores for 5,039 later applications, including 384 defaults (7.62%). Each validation fold uses a model trained on earlier applications with mature 90-day outcomes and no customers shared with that fold's validation set. Class weighting and oversampling affect training only; the validation applications retain their observed default rate. [Fold audit](artifacts/artifacts_Day3/artifacts/day3_fold_audit.csv) · [Prediction coverage](artifacts/artifacts_Day3/artifacts/day3_oof_coverage.csv)
 
 | Training strategy | Pooled ROC-AUC | Pooled AP | Recall at 0.5 | Flags at 0.5 | Within every period's capacity at 0.5? |
 | --- | ---: | ---: | ---: | ---: | --- |
@@ -81,9 +81,9 @@ The Day 3 run produced out-of-fold (OOF) scores for 5,039 later applications, in
 | Weighted | 0.7969 | 0.3100 | 57.81% | 1,005 | No |
 | Oversampled | 0.7979 | 0.3159 | 59.90% | 1,047 | No |
 
-The weighted strategy was declared before comparison for the threshold exercise. The threshold analysis follows that predeclared choice. Oversampling had the highest pooled AP in this run. These pooled scores use the same 5,039 applications and differ from Day 2's means across folds. [Strategy comparison](artifacts/artifacts_Day3/day3_strategy_comparison.csv)
+The weighted strategy was declared before comparison for the threshold exercise. The threshold analysis follows that predeclared choice. Oversampling had the highest pooled AP in this run. These pooled scores use the same 5,039 applications and differ from Day 2's means across folds. [Strategy comparison](artifacts/artifacts_Day3/artifacts/day3_strategy_comparison.csv)
 
-![ROC and precision-recall curves for the unweighted, weighted and oversampled Day 3 models.](artifacts/artifacts_Day3/day3_roc_pr.png)
+![ROC and precision-recall curves for the unweighted, weighted and oversampled Day 3 models.](artifacts/artifacts_Day3/artifacts/day3_roc_pr.png)
 
 The selected rule flags an application when its weighted score is **greater than or equal to 0.6583471436014694**. It minimizes the observed loss among the tested thresholds that satisfy the capacity limit in every period. The JSON keeps the full-precision threshold and the comparison operator. [Exact decision rule](artifacts/artifacts_Day3/day3_threshold.json)
 
@@ -93,9 +93,9 @@ The selected rule flags an application when its weighted score is **greater than
 | Minimum loss without capacity limit | 0.4486 | 1,141 (22.64%) | 64.06% | 21.56% | 2,275 | No |
 | Minimum loss within every period's capacity | 0.6583 | 526 (10.44%) | 40.89% | 29.85% | 2,639 | Yes |
 
-Thresholds in the table are rounded for display. The selected rule catches 157 defaults, misses 227, and incorrectly flags 369 non-defaulting applications. Its loss is `10 * 227 + 369 = 2,639` teaching units. Meeting capacity raises loss by 236 units relative to the default threshold and by 364 units relative to the unconstrained minimum. [Operating points](artifacts/artifacts_Day3/day3_operating_points.csv) · [Threshold sweep](artifacts/artifacts_Day3/day3_threshold_sweep.csv)
+Thresholds in the table are rounded for display. The selected rule catches 157 defaults, misses 227, and incorrectly flags 369 non-defaulting applications. Its loss is `10 * 227 + 369 = 2,639` teaching units. Meeting capacity raises loss by 236 units relative to the default threshold and by 364 units relative to the unconstrained minimum. [Operating points](artifacts/artifacts_Day3/artifacts/day3_operating_points.csv) · [Threshold sweep](artifacts/artifacts_Day3/artifacts/day3_threshold_sweep.csv)
 
-![Observed loss and flagged fraction across the weighted model's threshold sweep, with the selected feasible threshold marked.](artifacts/artifacts_Day3/day3_cost_curve.png)
+![Observed loss and flagged fraction across the weighted model's threshold sweep, with the selected feasible threshold marked.](artifacts/artifacts_Day3/artifacts/day3_cost_curve.png)
 
 | Validation period | Applications | Review capacity, rounded down | Flagged | Flagged fraction |
 | --- | ---: | ---: | ---: | ---: |
@@ -103,11 +103,11 @@ Thresholds in the table are rounded for display. The selected rule catches 157 d
 | January-June 2024 | 1,674 | 200 | 183 | 10.93% |
 | July-December 2024 | 1,733 | 207 | 206 | 11.89% |
 
-Every period stays within its own limit. A pooled flagged fraction below 12% would not, by itself, establish this. [Period audit](artifacts/artifacts_Day3/day3_period_audit.csv)
+Every period stays within its own limit. A pooled flagged fraction below 12% would not, by itself, establish this. [Period audit](artifacts/artifacts_Day3/artifacts/day3_period_audit.csv)
 
-![Application review counts against each period's capacity and regional false-positive rates at the shared threshold.](artifacts/artifacts_Day3/day3_capacity_regions.png)
+![Application review counts against each period's capacity and regional false-positive rates at the shared threshold.](artifacts/artifacts_Day3/artifacts/day3_capacity_regions.png)
 
-Regional false-positive rates range from 7.64% in other to 8.29% in western, a gap of 0.6484 percentage points. The comparison has no confidence intervals and does not establish fairness. Regional recall also varies, from 34.62% to 48.15%. The threshold was selected using these OOF development outcomes, so its loss needs confirmation on untouched later applications. All costs are teaching units and all applications are synthetic. [Regional audit](artifacts/artifacts_Day3/day3_regional_audit.csv) · [Completed reflection](artifacts/artifacts_Day3/day3_reflection.json) · [Day 3 technical report](reports/DAY3_TECHNICAL_REPORT.md)
+Regional false-positive rates range from 7.64% in other to 8.29% in western, a gap of 0.6484 percentage points. The comparison has no confidence intervals and does not establish fairness. Regional recall also varies, from 34.62% to 48.15%. The threshold was selected using these OOF development outcomes, so its loss needs confirmation on untouched later applications. All costs are teaching units and all applications are synthetic. [Regional audit](artifacts/artifacts_Day3/artifacts/day3_regional_audit.csv) · [Completed reflection](artifacts/artifacts_Day3/artifacts/day3_reflection.json) · [Day 3 technical report](reports/DAY3_TECHNICAL_REPORT.md)
 
 ## Day 4 explanations and calibration
 
