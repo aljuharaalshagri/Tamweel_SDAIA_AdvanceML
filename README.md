@@ -6,10 +6,9 @@ Author: Aljuhara Alshagri
 
 Program: Advanced Machine Learning (SDA-DSC-211), SDAIA Academy
 
-| Notebook | Contents | Open in Colab |
-| --- | --- | --- |
-| [Tamweel capstone](notebooks/Tamweel_aljuharaalshagri.ipynb) | Day 1 baseline, Day 2 validation and tuning, and Day 3 review policy | [Run Days 1-3](https://colab.research.google.com/github/aljuharaalshagri/Tamweel_SDAIA_AdvanceML/blob/main/notebooks/Tamweel_aljuharaalshagri.ipynb) |
-| [Day 3 decision thresholds](notebooks/03_decision_thresholds.ipynb) | The self-contained Day 3 analysis and completed reflections | [Run Day 3](https://colab.research.google.com/github/aljuharaalshagri/Tamweel_SDAIA_AdvanceML/blob/main/notebooks/03_decision_thresholds.ipynb) |
+
+[Tamweel capstone](notebooks/Tamweel_aljuharaalshagri.ipynb) | Day 1 baseline, Day 2 validation and tuning, and Day 3 review policy | [Run Days 1-3](https://colab.research.google.com/github/aljuharaalshagri/Tamweel_SDAIA_AdvanceML/blob/main/notebooks/Tamweel_aljuharaalshagri.ipynb)
+
 
 ## Project overview
 
