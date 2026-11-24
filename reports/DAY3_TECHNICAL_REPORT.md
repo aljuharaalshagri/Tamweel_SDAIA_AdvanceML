@@ -2,7 +2,7 @@
 
 ## Decision question
 
-Which score threshold should flag loan applications for review when missed defaults cost more than false alarms and review capacity is limited? Day 3 uses the forward-validation design from Day 2 to compare training strategies and choose a review rule. The selected weighted-model threshold is `0.6583471436014694`, applied with `>=`. On the 5,039 eligible applications, it flags 526, catches 157 defaults and stays within the 12% review limit in every period. [Combined notebook](../notebooks/Tamweel_aljuharaalshagri.ipynb) · [Day 3 notebook](../notebooks/03_decision_thresholds.ipynb) · [Exact decision rule](../artifacts/artifacts_Day3/day3_threshold.json)
+Which score threshold should flag loan applications for review when missed defaults cost more than false alarms and review capacity is limited? Day 3 uses the forward-validation design from Day 2 to compare training strategies and choose a review rule. The selected weighted-model threshold is `0.6583471436014694`, applied with `>=`. On the 5,039 eligible applications, it flags 526, catches 157 defaults and stays within the 12% review limit in every period. [Combined notebook](../notebooks/Tamweel_aljuharaalshagri.ipynb) [Exact decision rule](../artifacts/artifacts_Day3/day3_threshold.json)
 
 These results describe threshold development on synthetic applications. The loss values are teaching units. The threshold was selected and assessed using the same out-of-fold (OOF) outcomes.
 
