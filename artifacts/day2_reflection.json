@@ -1,0 +1,14 @@
+{
+  "responses": {
+    "leak_example": "I removed days_past_due_60 and collection_calls because both are recorded after the loan application is submitted. Using them to predict 90-day default would give the model information about later repayment behavior.",
+    "split_reason": "I used three forward validation folds to test how well the model ranked later applications. In each fold, I excluded validation customers from training and used only training applications whose 90-day outcome was already known before validation began.",
+    "observed_gap": "With the same random folds, including the two leakage fields raised mean average precision (AP) from 0.3110 to 0.9988, a gap of 0.6879. After removing those fields, random validation scored 0.0044 lower than the fixed 80-tree model on the forward folds (mean AP 0.3153).",
+    "imputer_reason": "The imputer should learn its fill values from each fold's training rows and reuse them on that fold's validation rows. Otherwise, information from later applications would influence how missing values are filled during training.",
+    "limitations": "The random folds covered all 10,000 synthetic applications, while the forward folds evaluated 5,039 later applications. Because the evaluated populations differed, I cannot attribute the small AP gap to the split method alone. Performance on real loan applications remains untested."
+  },
+  "checkpoint": {
+    "status": "READY_FOR_REVIEW",
+    "missing": [],
+    "automatic_grade": null
+  }
+}

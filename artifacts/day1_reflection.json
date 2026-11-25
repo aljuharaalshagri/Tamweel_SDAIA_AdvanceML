@@ -1,0 +1,18 @@
+{
+  "problem_statement": "At the time a loan application is submitted, I use the 22 available features to estimate the risk of default within the next 90 days. In this lab, I use synthetic applications to compare how well three models rank that risk.",
+  "candidate": "XGBoost",
+  "notes": {
+    "evidence": "I chose XGBoost because it had the highest average precision on the 2,000 held-out applications (0.3338), ahead of Logistic Regression (0.3258) and LightGBM (0.3248). Only 158 applications resulted in default (7.9%), so I prioritized how precisely the model identified defaults as recall increased.",
+    "limitation": "One random split of synthetic applications cannot establish how well the model will perform on future applicants. The split also allows the same customer to appear in both development and comparison data.",
+    "next_test": "I would compare the three models on later applications from customers excluded from training. I would reconsider XGBoost if another model consistently achieved higher average precision across those periods."
+  },
+  "exit_answers": [
+    "Only 7.9% of the comparison applications resulted in default. ROC-AUC measures how often a default is ranked above a non-default. AP tells me how precise the model's flags are as it captures more defaults. The distinction matters here because the two metrics favor different models.",
+    "Early stopping uses the inner-stop labels to choose the number of trees. Using the comparison rows for that choice would let their outcomes influence the model and could make its score look too optimistic. Keeping them separate gives all three fitted models a fair comparison."
+  ],
+  "checkpoint": {
+    "status": "READY_FOR_REVIEW",
+    "missing": [],
+    "automatic_grade": null
+  }
+}
