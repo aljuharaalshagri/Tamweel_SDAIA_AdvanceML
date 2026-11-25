@@ -1,15 +1,4 @@
 {
-  "_extraction": {
-    "kind": "extracted_saved_notebook_output",
-    "source_notebook": "Tamweel_aljuharaalshagri(2).ipynb",
-    "source_notebook_sha256": "82c3892c67d0b1e3af355f42ca26a918e4ba4efc9994fff280dc02e86aedca19",
-    "source_cell_index": 82,
-    "execution_count": 41,
-    "responses_method": "AST literal extraction of the saved responses assignment.",
-    "checkpoint_method": "Parsed from the saved stdout line; reflection_check was not executed.",
-    "checkpoint_scope": "Only the status and missing fields printed in the notebook are available.",
-    "runtime_reexecuted": false
-  },
   "responses": {
     "global_local": "Global explanations summarize how the model uses features across many applications. In the LIVE SHAP sample of 300 evaluation requests, bureau_score and dti had the largest mean absolute contributions, at 0.9042 and 0.5437 log-odds. Held-out permutation importance agreed: shuffling these features reduced average precision by 0.1270 and 0.0690, respectively. The local explanation describes TR-009585, the highest-scoring request in that sample. Its main positive contributions were bureau_score (+2.2693), dti (+1.1981), and loan_amount_sar (+0.2007). Global importance describes average influence, while local SHAP values explain the direction and size of contributions for one request.",
     "output_units": "The SHAP values are contributions to the model's raw log-odds, not percentage-point changes in default probability. Adding all SHAP values to the base value reconstructs the raw margin, and applying expit converts that total to the raw probability. The separate sigmoid calibration mapping then produces the calibrated probability. For TR-009585, the raw score was 0.9031 and the calibrated probability was 0.4795. The maximum additivity error was approximately 5.7e-15, confirming numerical agreement with the raw margin. These SHAP values do not directly decompose the calibrated probability.",
@@ -20,7 +9,7 @@
   },
   "checkpoint": {
     "status": "READY_FOR_REVIEW",
-    "missing": []
-  },
-  "saved_checkpoint_output": "READY_FOR_REVIEW | Fields to complete: []"
+    "missing": [],
+    "no_automatic_grade": true
+  }
 }
