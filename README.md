@@ -6,11 +6,9 @@ Author: Aljuhara Alshagri
 
 Program: Advanced Machine Learning (SDA-DSC-211), SDAIA Academy
 
-| Notebook | Contents | Open in Colab |
-| --- | --- | --- |
-| [Tamweel capstone](notebooks/Tamweel_aljuharaalshagri.ipynb) | Gates 1-5 with saved outputs; Gate 5 ends at the reflection heading | [Run Gates 1-5](https://colab.research.google.com/github/aljuharaalshagri/Tamweel_SDAIA_AdvanceML/blob/main/notebooks/Tamweel_aljuharaalshagri.ipynb) |
-| [Gate 3 decision thresholds](notebooks/03_decision_thresholds.ipynb) | The self-contained Gate 3 analysis and completed reflections | [Run Gate 3](https://colab.research.google.com/github/aljuharaalshagri/Tamweel_SDAIA_AdvanceML/blob/main/notebooks/03_decision_thresholds.ipynb) |
-| [Gate 5 final project](notebooks/05_final_project.ipynb) | Gate 5 saved outputs and completed reflection cell to run | [Run Gate 5](https://colab.research.google.com/github/aljuharaalshagri/Tamweel_SDAIA_AdvanceML/blob/main/notebooks/05_final_project.ipynb) |
+
+[Tamweel capstone](notebooks/Tamweel_aljuharaalshagri.ipynb) | Gates 1-5 with saved outputs; Gate 5 ends at the reflection heading | [Run Gates 1-5](https://colab.research.google.com/github/aljuharaalshagri/Tamweel_SDAIA_AdvanceML/blob/main/notebooks/Tamweel_aljuharaalshagri.ipynb)
+
 
 ## Project overview
 
@@ -373,7 +371,7 @@ The full responses are preserved in the [completed reflection](artifacts/artifac
 
 #### Day 4 technical report
 
-[Read the technical report](reports/DAY4_TECHNICAL_REPORT.md) | [Download PDF](reports/DAY4_TECHNICAL_REPORT.pdf) | [Download editable Word report](reports/DAY4_TECHNICAL_REPORT.docx)
+[Read the technical report](reports/DAY4_TECHNICAL_REPORT.md) 
 
 The report develops these six answers with the experimental design, measured results, all six notebook figures, and a documented interpretation of the capacity warning.
 
@@ -419,7 +417,7 @@ I selected Logistic Regression with mean AP 0.39166 and fold SD 0.02981, compare
 
 The nine answers are included in the [Day 5 reflection](artifacts/artifacts_Day5/day5_reflection.json) and the standalone notebook. The reflection code is complete but has not been executed as part of this documentation update.
 
-[Read the Day 5 technical report](reports/DAY5_TECHNICAL_REPORT.md) · [Download the editable Word report](reports/DAY5_TECHNICAL_REPORT.docx)
+[Read the Day 5 technical report](reports/DAY5_TECHNICAL_REPORT.md) 
 
 ## Training-program attribution
 
