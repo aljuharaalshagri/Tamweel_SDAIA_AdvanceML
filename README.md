@@ -1,34 +1,119 @@
-# Tamweel Lite
+# Tamweel Lite: Advanced Machine Learning Capstone
 
-Tamweel Lite studies how well machine learning models can rank loan applications by the risk of default within 90 days. The project uses synthetic applications and information available at the time of submission.
+**Predicting simulated default risk and allocating a limited review queue.**
 
-Author: Aljuhara Alshagri
+**Author:** Aljuhara Alshagri  
+**Program:** Advanced Machine Learning (SDA-DSC-211), SDAIA Academy  
+**Project scope:** Synthetic data, educational experiments, and reproducible evidence
 
-Program: Advanced Machine Learning (SDA-DSC-211), SDAIA Academy
+[Executed capstone notebook](notebooks/Tamweel_aljuharaalshagri.ipynb) · [Open in Google Colab](https://colab.research.google.com/github/aljuharaalshagri/Tamweel_SDAIA_AdvanceML/blob/main/notebooks/Tamweel_aljuharaalshagri.ipynb) · [Final technical report](reports/DAY5_TECHNICAL_REPORT.md) · [Model card](reports/MODEL_CARD.md) · [Submission](submission/submission.csv)
 
+## Capstone overview
 
-[Tamweel capstone](notebooks/Tamweel_aljuharaalshagri.ipynb) | Gates 1-5 with saved outputs; Gate 5 ends at the reflection heading | [Run Gates 1-5](https://colab.research.google.com/github/aljuharaalshagri/Tamweel_SDAIA_AdvanceML/blob/main/notebooks/Tamweel_aljuharaalshagri.ipynb)
+Tamweel Lite follows a machine learning project from a first baseline to a frozen prediction procedure and a capacity-limited review policy. It asks whether information available when a synthetic financing application is submitted can help rank its risk of default within the following 90 days, and how those scores should be used when only a small share of applications can be reviewed.
 
+The project evaluates more than predictive ranking. It examines leakage, validation over time, repeated customers, model tuning, unequal error costs, probability calibration, explanations, regional diagnostics, and reproducibility. The decision exercise assigns 10 teaching units to a missed default and 1 unit to a false positive, with review capacity capped at 12%. Those assumptions come from the course data contract. They are not estimates of real financial costs. [Data contract](data/data_contract.json)
 
-## Project overview
+**Final decision:** retain the single Logistic Regression model. Its mean average precision (AP) is **0.39166**, with fold standard deviation **0.02981**, compared with **0.38942** AP for the closest ensemble. The final challenge policy flags **300 of 2,500 applications**, after removing 30 of the 330 threshold-eligible requests to meet capacity. The final sigmoid calibration diagnostics worsen, and an untouched labeled final test is unavailable. These findings support a documented coursework decision while leaving clear limits on the evidence. [Model comparison](artifacts/artifacts_Day5/ensemble_comparison.csv) · [Final metrics](artifacts/artifacts_Day5/final_metrics.json) · [Final policy](artifacts/artifacts_Day5/final_policy.json)
 
-Gate 1 asks whether gradient boosting improves on a Logistic Regression baseline. I trained XGBoost and LightGBM alongside the baseline, then compared all three on the same 2,000 held-out applications. Each application has a score from every model, so the comparison uses the same outcomes throughout. [Held-out predictions](artifacts/artifacts_Day1/day1_comparison_predictions.csv)
+The combined notebook contains executed work for all five gates, including the final reflection and recorded export verification. The saved project-completeness checks still report outstanding delivery items. Technical execution, reflection readiness, and complete project packaging have separate statuses, detailed below.
 
-Gate 2 tests whether LightGBM can rank default risk for later applications from customers excluded from training. I audited which fields were available at submission, set aside historical data for tuning, and compared random validation with three forward validation folds.
+## Contents
 
-Gate 3 turns the risk scores into a review rule. I compared three training strategies, then used the predeclared weighted strategy to select a threshold under a loss of 10 units per missed default and 1 unit per false positive. At most 12% of applications can be flagged in each validation period. [Gate 3 operating points](artifacts/artifacts_Day3/artifacts/day3_operating_points.csv)
+- [Main objectives](#main-objectives)
+- [Workflow and gate objectives](#workflow-and-gate-objectives)
+- [Data and prediction setting](#data-and-prediction-setting)
+- [Evaluation approach](#evaluation-approach)
+- [Current completion status](#current-completion-status)
+- [Gate 1: baseline results](#gate-1-results)
+- [Gate 2: validation and tuning](#gate-2-validation-design-and-results)
+- [Gate 3: review policy](#gate-3-review-policy-and-results)
+- [Gate 4: explanations and calibration](#gate-4-explanations-and-calibration)
+- [Gate 5: final model and policy](#gate-5-final-model-and-review-policy)
+- [Repository structure](#repository-structure)
+- [Reproducing the results](#reproducing-the-results)
+- [Delivery checks and remaining work](#delivery-checks-and-remaining-work)
+- [Intended use and limitations](#intended-use-and-limitations)
+- [Monitoring plan](#monitoring-plan)
+- [Daily answers](#daily-answers--الإجابات-اليومية)
 
-Gate 4 examines a weighted LightGBM model through permutation importance, global and local SHAP explanations, sigmoid calibration, customer-cluster bootstrap intervals, and a review-capacity audit. The completed run improves probability agreement while leaving ranking unchanged. Its expanded review queue exceeds capacity in both evaluation quarters. [Gate 4 saved evidence](artifacts/artifacts_Day4/artifacts/day4_saved_output_summary.json)
+The **Daily answers | الإجابات اليومية** section at the end preserves the original daily labels and the stage-specific reflections.
 
-Gate 5 compares three single models and three ensembles using nested forward OOF predictions, then selects a final procedure and applies one capacity rule to the full challenge batch. The gate keeps Logistic Regression. The batch contains 2,500 requests, with 300 final flags after the 12% cap. Its sigmoid calibration diagnostics worsen, so the Gate 4 calibration improvement does not carry over to the final model. [Gate 5 results](artifacts/artifacts_Day5/evidence.json) · [Gate 5 technical report](reports/DAY5_TECHNICAL_REPORT.md)
+## Main objectives
+
+1. **Establish a defensible baseline.** Compare Logistic Regression, XGBoost, and LightGBM on the same applications, using AP and ROC-AUC alongside training behavior.
+2. **Audit information availability.** Keep identifiers, dates, the target, and post-application outcome fields out of the predictor set; fit preprocessing within the appropriate training data.
+3. **Validate on later applications.** Respect chronology, mature 90-day labels, and customer separation, with tuning and ensemble fitting kept inside their designated data roles.
+4. **Connect predictions to a review decision.** Select and audit a threshold under the stated error costs and period-level capacity limits, then apply the final cap to the complete challenge batch.
+5. **Assess trust and uncertainty.** Study model explanations, probability calibration, evaluation variability, and the limits of local reason codes.
+6. **Justify the final model.** Compare single models with averaging and stacking, and require enough measured benefit to justify a more complex exported procedure.
+7. **Deliver traceable evidence.** Preserve executed outputs, metrics, provenance, model and policy artifacts, a submission file, technical reports, and reflections; identify any remaining packaging requirements.
+8. **Define responsible follow-up.** State the educational use boundary and propose checks for data drift, calibration, capacity, and regional outcomes before any new experiment is accepted.
+
+## Workflow and gate objectives
+
+| Gate | Main task | Work completed and key finding | Evidence |
+| --- | --- | --- | --- |
+| Gate 1 | Baseline modeling | Compared three models on 2,000 held-out applications. XGBoost had the highest AP in this random-split experiment. | [Report](reports/DAY1_TECHNICAL_REPORT.md) |
+| Gate 2 | Leakage control, forward validation, and tuning | Removed post-application information; audited three forward folds with no shared customers; completed eight Optuna trials on a historical tuning pool. | [Report](reports/DAY2_TECHNICAL_REPORT.md) |
+| Gate 3 | Cost-sensitive threshold selection | Compared unweighted, weighted, and oversampled training. The predeclared weighted strategy produced a threshold that met every validation period's capacity. | [Report](reports/DAY3_TECHNICAL_REPORT.md) |
+| Gate 4 | Explanation, calibration, and stability | Explained a weighted LightGBM, evaluated sigmoid calibration, and ran 200 customer-cluster bootstrap replicates. The expanded review queue exceeded capacity. | [Report](reports/DAY4_TECHNICAL_REPORT.md) |
+| Gate 5 | Final selection, export, and challenge policy | Compared six candidates using nested forward out-of-fold (OOF) predictions; retained Logistic Regression; exported the model and policy; produced 2,500 submission rows and completed the nine reflection fields. | [Report](reports/DAY5_TECHNICAL_REPORT.md) |
+
+Each gate answers a different question. Model choices made earlier in the course remain part of the experiment record; they do not override the final selection procedure.
+
+## Data and prediction setting
+
+The released dataset is **`tamweel-lite-1.0`**, with synthetic applications and a public training seed of `211`. The repository includes the clean training data, unlabeled challenge data, data contract, and release manifest. [Training data](data/tamweel_train.csv) · [Challenge data](data/tamweel_challenge.csv) · [Release manifest](data/data_manifest.json)
+
+| Property | Training data | Challenge data |
+| --- | --- | --- |
+| Applications | 10,000 | 2,500 |
+| Application dates | 2022-01-01 to 2024-12-31 | 2025-01-01 to 2025-09-30 |
+| Target availability | 789 defaults; prevalence 7.89% | Labels unavailable |
+| Application-time predictors | 22 | The same 22 predictors |
+| Role | Model development, validation, calibration, and policy selection | Frozen prediction and full-batch policy application |
+
+The target, `default_within_90d`, means a fictional default event within 90 days after application. It does not mean reaching 90 days past due. In forward validation, a training label is usable only when its 90-day outcome window has closed strictly before the validation period starts. [Target definition and availability rules](data/data_contract.json)
+
+The 22 predictors cover income and requested financing, bureau and credit history, obligations and utilization, employment and residence, savings, age, and encoded region and employment categories. `application_id`, `customer_id`, and `application_date` are metadata rather than predictors. The three nullable predictors are `bureau_score`, `months_employed`, and `savings_balance_sar`; imputation is learned from the appropriate training rows. Logistic Regression also uses feature scaling. [Feature contract](data/data_contract.json) · [Final fitted feature order and preprocessing](artifacts/final_model/model.json)
+
+The leakage exercise uses `days_past_due_60` and `collection_calls` to demonstrate the effect of information recorded after application. Those fields are excluded from the valid feature set. The dirty exercise data and some setup helpers are fetched by the notebook from pinned course sources; they are not all tracked in this repository. A file's appearance in the course release manifest does not mean it is present in this checkout. [Leakage audit](artifacts/artifacts_Day2/leakage_audit.csv) · [Notebook setup cells](notebooks/Tamweel_aljuharaalshagri.ipynb)
+
+## Evaluation approach
+
+| Question | Measures and checks | Interpretation |
+| --- | --- | --- |
+| Does the model rank risk usefully? | AP, ROC-AUC, and fold-level scores | AP is central to the candidate comparison under the observed low default prevalence. |
+| Do probabilities agree with outcomes? | Brier score, log loss, ECE, reliability curves, and bin counts | Lower probability-error scores are better; the data role used for fitting and scoring the calibrator must be stated. |
+| Is the review policy workable? | `10 * FN + FP`, recall, precision, flagged fraction, and capacity by period or full batch | A high ranking score alone does not establish a feasible operating policy. |
+| How much variation is visible? | Forward-fold SD and, in Gate 4, paired customer-cluster bootstrap intervals | Fold SD is descriptive. The bootstrap holds the fitted model and calibrator fixed. |
+| How do results differ by region? | FPR, recall, selection, and cap-removal rates with explicit denominators | Small groups and missing uncertainty estimates limit conclusions; capacity compliance does not establish fairness. |
+
+The validation design becomes more restrictive as the project progresses, but the evaluation cohorts and score aggregation also change. Gate 1's held-out AP, Gate 2's fold means, Gate 3's pooled AP, Gate 4's evaluation score, and Gate 5's nested comparison are not a single performance trend. Gate 5 uses its outer OOF results for model and threshold selection, so those results remain development evidence. The unlabeled challenge supplies a capacity and reproducibility check, not a final estimate of predictive performance. [Gate 2 validation summary](artifacts/artifacts_Day2/validation_summary.csv) · [Gate 3 comparison](artifacts/artifacts_Day3/artifacts/day3_model_comparison.csv) · [Gate 4 calibration metrics](artifacts/artifacts_Day4/artifacts/calibration_metrics.json) · [Gate 5 provenance](artifacts/artifacts_Day5/day5_oof_provenance.json)
+
+## Current completion status
+
+| Area | Recorded state | What the evidence establishes |
+| --- | --- | --- |
+| Gates 1-5 technical runs | `TECHNICAL_READY` | Saved run records and the combined notebook contain completed computational work. |
+| Gate 5 reflection | `READY_FOR_REVIEW`, no missing fields | All nine answers were checked for completeness; this is not an automatic substantive grade. |
+| Gate 4 review capacity | `CAPACITY_REVIEW_REQUIRED` | The observed review queue exceeds capacity in both evaluation quarters. |
+| Gate 5 replay and bundle bytes | `REPLAY_MATCH`; `BUNDLE_BYTES_VERIFIED`, 48 files | The saved notebook records verification in its course runtime. |
+| Export-time project check | `PROJECT_WORK_REQUIRED` | Some expected delivery items were absent from that assembled bundle; no submission receipt is established. |
+| Later repository self-check | `NEEDS_WORK`, 13 failed checks | Eight distinct expected paths were absent; five also failed a separate execution check. |
+
+Sources: [Gate 1 run](artifacts/artifacts_Day1/day1_run.json), [Gate 2 run](artifacts/artifacts_Day2/day2_run.json), [Gate 3 run](artifacts/artifacts_Day3/artifacts/day3_run.json), [Gate 4 run](artifacts/artifacts_Day4/artifacts/day4_run.json), [Gate 5 run](artifacts/artifacts_Day5/day5_run.json), [Gate 5 reflection](artifacts/artifacts_Day5/day5_reflection.json), [executed verification cells](notebooks/Tamweel_aljuharaalshagri.ipynb), [project check](artifacts/artifacts_Day5/day5_project_check.json), and [repository self-check](tamweel_lite_self_check.json).
+
+**Evidence snapshot:** repository `main` at [commit `52bb4bf30712`](https://github.com/aljuharaalshagri/Tamweel_SDAIA_AdvanceML/tree/52bb4bf3071251974569553f7ff4971eacd0f844), reviewed on 25 November 2026. This documentation review checked tracked files, stored metrics, submission rows, and saved notebook outputs. Training, replay, and the course checker were not rerun during the review. The status labels above are the recorded outcomes of their respective checks.
 
 ## Gate 1 results
 
 | Model | ROC-AUC | Average precision | Training time (s) |
 | --- | ---: | ---: | ---: |
-| Logistic Regression | **0.821** | 0.326 | 0.030 |
-| XGBoost | 0.812 | **0.334** | 0.178 |
-| LightGBM | 0.814 | 0.325 | 0.171 |
+| Logistic Regression | **0.821** | 0.326 | 0.058 |
+| XGBoost | 0.812 | **0.334** | 0.463 |
+| LightGBM | 0.814 | 0.325 | 0.292 |
 
 Logistic Regression led on ROC-AUC. XGBoost led on average precision, which matters here because only 158 of the 2,000 applications resulted in default (7.9%). Training times in this table come from the archived Gate 1 export and include tree-count selection and refitting for the boosting models. The latest combined notebook contains another execution with the same rounded ranking metrics and different timings. [Full comparison table](artifacts/artifacts_Day1/day1_model_comparison.csv)
 
@@ -46,6 +131,10 @@ Logistic Regression led on ROC-AUC. XGBoost led on average precision, which matt
 ![Training and early-stopping log loss by boosting round for XGBoost and LightGBM.](artifacts/artifacts_Day1/day1_learning_curves.png)
 
 *The vertical markers show the selected tree counts. Log loss on the early-stopping set was lowest at 61 trees for XGBoost and 41 for LightGBM.* [Gate 1 technical report](reports/DAY1_TECHNICAL_REPORT.md)
+
+### Interpretation and limitations
+
+Although the development and comparison sets contain distinct applications, 1,226 customers appear in both sets. This overlap motivated the Gate 2 test on later applications from customers excluded from training. At Gate 1, I identified stronger AP on later cohorts as the evidence needed to reconsider the XGBoost choice. Gate 5 later made the final selection using its own nested comparison. [Gate 1 reflection](artifacts/artifacts_Day1/day1_reflection.json)
 
 ## Gate 2 validation design and results
 
@@ -76,7 +165,7 @@ For tuning, I reserved 1,935 earlier applications whose customers were absent fr
 
 ## Gate 3 review policy and results
 
-The Gate 3 run produced out-of-fold (OOF) scores for 5,039 later applications, including 384 defaults (7.62%). Each validation fold uses a model trained on earlier applications with mature 90-day outcomes and no customers shared with that fold's validation set. Class weighting and oversampling affect training only; the validation applications retain their observed default rate. [Fold audit](artifacts/artifacts_Day3/artifacts/day3_fold_audit.csv) · [Prediction coverage](artifacts/artifacts_Day3/day3_oof_coverage.csv)
+The Gate 3 run produced out-of-fold (OOF) scores for 5,039 later applications, including 384 defaults (7.62%). Each validation fold uses a model trained on earlier applications with mature 90-day outcomes and no customers shared with that fold's validation set. Class weighting and oversampling affect training only; the validation applications retain their observed default rate. [Fold audit](artifacts/artifacts_Day3/artifacts/day3_provenance.json) · [Prediction coverage](artifacts/artifacts_Day3/artifacts/day3_oof_coverage.csv)
 
 | Training strategy | Pooled ROC-AUC | Pooled AP | Recall at 0.5 | Flags at 0.5 | Within every period's capacity at 0.5? |
 | --- | ---: | ---: | ---: | ---: | --- |
@@ -84,11 +173,11 @@ The Gate 3 run produced out-of-fold (OOF) scores for 5,039 later applications, i
 | Weighted | 0.7969 | 0.3100 | 57.81% | 1,005 | No |
 | Oversampled | 0.7979 | 0.3159 | 59.90% | 1,047 | No |
 
-The weighted strategy was declared before comparison for the threshold exercise. The threshold analysis follows that predeclared choice. Oversampling had the highest pooled AP in this run. These pooled scores use the same 5,039 applications and differ from Gate 2's means across folds. [Strategy comparison](artifacts/artifacts_Day3/day3_strategy_comparison.csv)
+The weighted strategy was declared before comparison for the threshold exercise. The threshold analysis follows that predeclared choice. Oversampling had the highest pooled AP in this run. These pooled scores use the same 5,039 applications and differ from Gate 2's means across folds. [Strategy comparison](artifacts/artifacts_Day3/artifacts/day3_model_comparison.csv)
 
 ![ROC and precision-recall curves for the unweighted, weighted and oversampled Gate 3 models.](artifacts/artifacts_Day3/artifacts/day3_roc_pr.png)
 
-The selected rule flags an application when its weighted score is **greater than or equal to 0.6583471436014694**. It minimizes the observed loss among the tested thresholds that satisfy the capacity limit in every period. The JSON keeps the full-precision threshold and the comparison operator. [Exact decision rule](artifacts/artifacts_Day3/artifacts/day3_threshold.json)
+The selected rule flags an application when its weighted score is **greater than or equal to 0.6583471436014694**. It minimizes the observed loss among the tested thresholds that satisfy the capacity limit in every period. The JSON keeps the full-precision threshold and the comparison operator. [Exact decision rule](artifacts/artifacts_Day3/artifacts/threshold_metrics.json)
 
 | Weighted-model rule | Threshold | Flagged applications | Recall | Precision | Loss units | Within capacity? |
 | --- | ---: | ---: | ---: | ---: | ---: | --- |
@@ -96,9 +185,9 @@ The selected rule flags an application when its weighted score is **greater than
 | Minimum loss without capacity limit | 0.4486 | 1,141 (22.64%) | 64.06% | 21.56% | 2,275 | No |
 | Minimum loss within every period's capacity | 0.6583 | 526 (10.44%) | 40.89% | 29.85% | 2,639 | Yes |
 
-Thresholds in the table are rounded for display. The selected rule catches 157 defaults, misses 227, and incorrectly flags 369 non-defaulting applications. Its loss is `10 * 227 + 369 = 2,639` teaching units. Meeting capacity raises loss by 236 units relative to the default threshold and by 364 units relative to the unconstrained minimum. [Operating points](artifacts/artifacts_Day3/artifacts/day3_operating_points.csv) · [Threshold sweep](artifacts/artifacts_Day3/artifacts/day3_threshold_sweep.csv)
+Thresholds in the table are rounded for display. The selected rule catches 157 defaults, misses 227, and incorrectly flags 369 non-defaulting applications. Its loss is `10 * 227 + 369 = 2,639` teaching units. Meeting capacity raises loss by 236 units relative to the default threshold and by 364 units relative to the unconstrained minimum. [Operating points](artifacts/artifacts_Day3/artifacts/threshold_metrics.json) · [Threshold sweep](artifacts/artifacts_Day3/artifacts/threshold_sweep.csv)
 
-![Observed loss and flagged fraction across the weighted model's threshold sweep, with the selected feasible threshold marked.](artifacts/artifacts_Day3/artifacts/day3_cost_curve.png)
+![Observed loss and flagged fraction across the weighted model's threshold sweep, with the selected feasible threshold marked.](artifacts/artifacts_Day3/artifacts/cost_curve.png)
 
 | Validation period | Applications | Review capacity, rounded down | Flagged | Flagged fraction |
 | --- | ---: | ---: | ---: | ---: |
@@ -106,11 +195,11 @@ Thresholds in the table are rounded for display. The selected rule catches 157 d
 | January-June 2024 | 1,674 | 200 | 183 | 10.93% |
 | July-December 2024 | 1,733 | 207 | 206 | 11.89% |
 
-Every period stays within its own limit. A pooled flagged fraction below 12% would not, by itself, establish this. [Period audit](artifacts/artifacts_Day3/artifacts/day3_period_audit.csv)
+Every period stays within its own limit. A pooled flagged fraction below 12% would not, by itself, establish this. [Period audit](artifacts/artifacts_Day3/artifacts/day3_period_capacity.csv)
 
 ![Application review counts against each period's capacity and regional false-positive rates at the shared threshold.](artifacts/artifacts_Day3/artifacts/day3_capacity_regions.png)
 
-Regional false-positive rates range from 7.64% in other to 8.29% in western, a gap of 0.6484 percentage points. The comparison has no confidence intervals and does not establish fairness. Regional recall also varies, from 34.62% to 48.15%. The threshold was selected using these OOF development outcomes, so its loss needs confirmation on untouched later applications. All costs are teaching units and all applications are synthetic. [Regional audit](artifacts/artifacts_Day3/artifacts/day3_regional_audit.csv) · [Completed reflection](artifacts/artifacts_Day3/artifacts/day3_reflection.json) · [Gate 3 technical report](reports/DAY3_TECHNICAL_REPORT.md)
+Regional false-positive rates range from 7.64% in other to 8.29% in western, a gap of 0.6484 percentage points. The comparison has no confidence intervals and does not establish fairness. Regional recall also varies, from 34.62% to 48.15%. The threshold was selected using these OOF development outcomes, so its loss needs confirmation on untouched later applications. All costs are teaching units and all applications are synthetic. [Regional audit](artifacts/artifacts_Day3/artifacts/day3_region_audit.csv) · [Completed reflection](artifacts/artifacts_Day3/artifacts/day3_reflection.json) · [Gate 3 technical report](reports/DAY3_TECHNICAL_REPORT.md)
 
 ## Gate 4 explanations and calibration
 
@@ -157,7 +246,7 @@ For `TR-009585`, the highest-scoring request within the SHAP sample, the leading
 | Expected calibration error | 0.146871 | 0.022486 |
 | Log loss | 0.357993 | 0.246749 |
 
-Calibration lowered all three reported probability-error measures and preserved the ranking metrics. Sparse reliability bins remain noisy. In 200 paired customer-cluster bootstrap replicates, the 95% interval for the Brier change after calibration was [-0.054177, -0.037409]. These intervals hold the fitted model and calibrator fixed. [Saved metric tables and intervals](artifacts/artifacts_Day4/artifacts/day4_saved_output_summary.json)
+Calibration lowered all three reported probability-error measures and preserved the ranking metrics. Sparse reliability bins remain noisy. In 200 paired customer-cluster bootstrap replicates, the 95% interval for the Brier change after calibration was [-0.054177, -0.037409]. These intervals hold the fitted model and calibrator fixed. [Calibration metrics](artifacts/artifacts_Day4/artifacts/calibration_metrics.json) · [Bootstrap intervals](artifacts/artifacts_Day4/artifacts/day4_stability_summary.json)
 
 ![Reliability curves and bin counts before and after sigmoid calibration on the Gate 4 evaluation role.](artifacts/artifacts_Day4/artifacts/reliability_curve.png)
 
@@ -184,7 +273,7 @@ The reflection returned `READY_FOR_REVIEW` with no missing fields. The export pr
 
 ## Gate 5 final model and review policy
 
-Gate 5 selected the single Logistic Regression model. It achieved the highest mean AP across three forward periods, while the weighted ensemble had slightly lower fold variability and ECE. The recorded gate decision is `KEEP SINGLE`, with candidate `Logistic`. This choice uses a different validation cohort and procedure from Gate 1; the scores should not be read as a direct performance trend across gates. [Candidate comparison](artifacts/artifacts_Day5/day5_model_comparison.csv)
+Gate 5 selected the single Logistic Regression model. It achieved the highest mean AP across three forward periods, while the weighted ensemble had slightly lower fold variability and ECE. The recorded gate decision is `KEEP SINGLE`, with candidate `Logistic`. This choice uses a different validation cohort and procedure from Gate 1; the scores should not be read as a direct performance trend across gates. [Candidate comparison](artifacts/artifacts_Day5/ensemble_comparison.csv)
 
 ### Data roles and validation
 
@@ -193,7 +282,15 @@ Gate 5 selected the single Logistic Regression model. It achieved the highest me
 | Fitting and selection | 6,576 | 3,931 | 537 | 2022-01-01 | 2024-04-01 |
 | Calibration only | 836 | 788 | 78 | 2024-07-01 | 2024-09-30 |
 
-The role split excludes 2,588 rows. The nested comparison produced `LIVE` OOF predictions for 2,155 applications across three forward periods. Warm-up applications have no outer OOF prediction. The design separates inner ensemble fitting from outer scoring and addresses chronology, customer separation and 90-day label availability. Candidate selection and threshold selection use this OOF evidence, so the results still need an untouched later evaluation. Fold SD describes variation across three folds; it is not a confidence interval. [Data roles](artifacts/artifacts_Day5/day5_data_roles.csv) · [Saved evidence and provenance](artifacts/artifacts_Day5/evidence.json)
+The role split excludes 2,588 rows. The nested comparison produced `LIVE` OOF predictions for 2,155 applications across three forward periods. Warm-up applications have no outer OOF prediction. The design separates inner ensemble fitting from outer scoring and addresses chronology, customer separation and 90-day label availability. Candidate selection and threshold selection use this OOF evidence, so the results still need an untouched later evaluation. Fold SD describes variation across three folds; it is not a confidence interval. [Data roles](artifacts/artifacts_Day5/day5_roles.csv) · [Outer and inner fold provenance](artifacts/artifacts_Day5/day5_oof_provenance.json)
+
+| Outer validation period | Training applications | Validation applications | Inner forward folds | Shared customers across the outer split |
+| --- | ---: | ---: | ---: | ---: |
+| January-March 2023 | 1,962 | 732 | 1 | 0 |
+| July-September 2023 | 3,260 | 734 | 3 | 0 |
+| January-March 2024 | 4,618 | 689 | 5 | 0 |
+
+Within each outer training set, inner forward OOF predictions supply the data for a 12-point weighted-averaging search and for fitting the Logistic stacking model. The base models are then fitted on the outer training rows, and all six candidates are scored on the outer validation rows. Both levels enforce chronology, label maturity, and customer separation. This separation protects outer scoring from direct ensemble fitting, while the later use of outer scores for selection still limits the final performance claim. [Nested comparison implementation](scripts/day5_final.py) · [OOF predictions](artifacts/artifacts_Day5/day5_oof_predictions.csv) · [Fold scores](artifacts/artifacts_Day5/day5_fold_scores.csv)
 
 ### Single model and ensemble comparison
 
@@ -206,7 +303,11 @@ The role split excludes 2,588 rows. The nested comparison produced `LIVE` OOF pr
 | Weighted ensemble | 0.38942 | 0.02906 | 0.06332 | 0.01772 | -0.00224 |
 | Stacking | 0.38314 | 0.02949 | 0.06603 | 0.03106 | -0.00852 |
 
-The probability scores in this table use raw OOF predictions before the final sigmoid mapping. No ensemble passed the worth-it gate. Weighted was the closest on AP, but its score was lower by 0.00224 and its Brier score was marginally higher. Its small SD and ECE advantages did not provide an AP gain to justify maintaining several models and a combination step. The differences do not establish statistical superiority. [Full comparison](artifacts/artifacts_Day5/day5_model_comparison.csv)
+The probability scores in this table use raw OOF predictions before the final sigmoid mapping. No ensemble passed the worth-it gate. Weighted was the closest on AP, but its score was lower by 0.00224 and its Brier score was marginally higher. Its small SD and ECE advantages did not provide an AP gain to justify maintaining several models and a combination step. The differences do not establish statistical superiority. [Full comparison](artifacts/artifacts_Day5/ensemble_comparison.csv)
+
+The implemented ensemble gate requires an AP lift over the best single model that exceeds that single model's fold SD, while allowing at most 0.005 higher mean Brier and 0.01 higher mean ECE. If several ensembles pass, the predeclared order is Equal, Weighted, then Stack. Every ensemble's AP change was negative here, so all failed the AP requirement. This is a course selection rule, not a statistical significance test. [Exact gate](artifacts/artifacts_Day5/day5_ensemble_gate.json)
+
+The comparison and final fitting code train multiple base models internally. The exported artifact contains only the selected Logistic model, its fitted imputer and scaler, the 22-feature order, and the sigmoid mapping. The simplicity advantage therefore concerns the exported prediction procedure, explanation work, and maintenance; it does not mean the recorded experiment avoided fitting the other candidates. [Exported model](artifacts/final_model/model.json) · [Selection report](reports/ENSEMBLE_DECISION.md)
 
 ![Mean AP with one fold standard deviation and raw OOF Brier and ECE for the six Gate 5 candidates.](artifacts/artifacts_Day5/day5_ensemble_comparison.png)
 
@@ -214,11 +315,11 @@ The probability scores in this table use raw OOF predictions before the final si
 
 ![Pairwise correlations of OOF probabilities and residuals for LightGBM, XGBoost and Logistic Regression.](artifacts/artifacts_Day5/day5_diversity.png)
 
-*The displayed probability correlations range from 0.88 to 0.96, while residual correlations range from 0.98 to 0.99. These rounded plot labels suggest substantial shared prediction behavior, but correlation alone does not determine whether an ensemble will improve AP.* [Displayed correlations](artifacts/artifacts_Day5/day5_probability_correlation_displayed.csv)
+*The displayed probability correlations range from 0.88 to 0.96, while residual correlations range from 0.98 to 0.99. These rounded plot labels suggest substantial shared prediction behavior, but correlation alone does not determine whether an ensemble will improve AP.* [Probability correlations](artifacts/artifacts_Day5/day5_probability_correlation.csv) · [Residual correlations](artifacts/artifacts_Day5/day5_residual_correlation.csv)
 
 ### OOF threshold and regional diagnostics
 
-The selected raw threshold is `0.16892161427109176`. At this threshold, 245 of 2,155 OOF applications are flagged, approximately 11.37%. The maximum flagged fraction in any forward period is approximately 11.75%, below the 12% limit. The operating point contains 84 true positives, 161 false positives, 95 false negatives and 1,815 true negatives. Recall is 46.93%, precision is 34.29%, and the false-positive rate is 8.15%. The educational loss is `10 * 95 + 161 = 1,111`. These figures describe the threshold selected on OOF development outcomes. [OOF operating point](artifacts/artifacts_Day5/day5_oof_operating_point.csv) · [Exact threshold metadata](artifacts/artifacts_Day5/evidence.json)
+The selected raw threshold is `0.16892161427109176`. At this threshold, 245 of 2,155 OOF applications are flagged, approximately 11.37%. The maximum flagged fraction in any forward period is approximately 11.75%, below the 12% limit. The operating point contains 84 true positives, 161 false positives, 95 false negatives and 1,815 true negatives. Recall is 46.93%, precision is 34.29%, and the false-positive rate is 8.15%. The educational loss is `10 * 95 + 161 = 1,111`. These figures describe the threshold selected on OOF development outcomes. [OOF operating point](artifacts/artifacts_Day5/final_metrics.json) · [Exact threshold metadata](artifacts/artifacts_Day5/final_policy.json) · [Period capacity](artifacts/artifacts_Day5/day5_period_capacity.csv)
 
 | Region | Negative cases | Positive cases | False positives | True positives | FPR | Recall |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
@@ -227,7 +328,7 @@ The selected raw threshold is `0.16892161427109176`. At this threshold, 245 of 2
 | Eastern | 507 | 35 | 32 | 16 | 6.31% | 45.71% |
 | Other | 494 | 49 | 40 | 23 | 8.10% | 46.94% |
 
-FPR divides false positives by actual negative cases; recall divides true positives by actual positive cases. The largest FPR gap is approximately 3.98 percentage points between western and eastern. Each region contains only 35-49 positives, and the table includes no confidence intervals. These are OOF threshold diagnostics and do not establish fairness or describe the challenge batch after its cap. [Regional audit](artifacts/artifacts_Day5/day5_regional_audit.csv)
+FPR divides false positives by actual negative cases; recall divides true positives by actual positive cases. The largest FPR gap is approximately 3.98 percentage points between western and eastern. Each region contains only 35-49 positives, and the table includes no confidence intervals. These are OOF threshold diagnostics and do not establish fairness or describe the challenge batch after its cap. [Regional audit](artifacts/artifacts_Day5/day5_region_audit.csv)
 
 ![OOF teaching loss across thresholds and regional false-positive rates with their negative-case denominators.](artifacts/artifacts_Day5/day5_policy_regions.png)
 
@@ -245,7 +346,7 @@ The final classifier is refitted on the 6,576 fitting and selection applications
 | Log loss | 0.266489 | 0.277296 |
 | ECE with 10 fixed-width bins | 0.021121 | 0.034871 |
 
-All three probability-error scores worsen after sigmoid calibration, while the ranking metrics remain unchanged. The notebook nevertheless freezes and exports the mapping. These results do not support a calibration benefit; the mapping needs comparison on a separate later labeled cohort before deciding whether to retain it. [Calibration diagnostics](artifacts/artifacts_Day5/day5_calibration_diagnostics.csv)
+All three probability-error scores worsen after sigmoid calibration, while the ranking metrics remain unchanged. The notebook nevertheless freezes and exports the mapping. These results do not support a calibration benefit; the mapping needs comparison on a separate later labeled cohort before deciding whether to retain it. [Calibration diagnostics](artifacts/artifacts_Day5/final_metrics.json) · [Calibration predictions](artifacts/artifacts_Day5/day5_calibration_predictions.csv)
 
 ![Raw and sigmoid reliability diagrams for the 836 calibration-fit applications with counts shown beside populated bins.](artifacts/artifacts_Day5/day5_calibration_fit.png)
 
@@ -253,7 +354,7 @@ All three probability-error scores worsen after sigmoid calibration, while the r
 
 ### Challenge batch and capacity
 
-The raw policy threshold is transported through the fitted mapping to `0.12225843144286948`. The notebook applies the threshold, then orders eligible requests by probability and applies the 12% cap once to all 2,500 requests. Equal-score blocks are retained together; a boundary block is dropped if it cannot fit. The policy does not use outcomes or application IDs to break ties. [Full batch audit](artifacts/artifacts_Day5/day5_full_batch_audit_full_metadata.csv)
+The raw policy threshold is transported through the fitted mapping to `0.12225843144286948`. The notebook applies the threshold, then orders eligible requests by probability and applies the 12% cap once to all 2,500 requests. Equal-score blocks are retained together; a boundary block is dropped if it cannot fit. The policy does not use outcomes or application IDs to break ties. [Full batch audit](artifacts/artifacts_Day5/final_policy.json)
 
 | Batch measure | Requests |
 | --- | ---: |
@@ -263,7 +364,7 @@ The raw policy threshold is transported through the fitted mapping to `0.1222584
 | Final flags | 300 |
 | Removed by the cap | 30 |
 
-Threshold eligibility is 13.2% of the batch, and the final flagged fraction is 12%. The saved boundary score is `0.12990841067105013`. The 30 removals were eligible under the fixed threshold but excluded by capacity; their outcomes are unknown. Challenge labels are unavailable, so the batch cannot provide measured recall, precision, calibration or outcome-based fairness. [Batch results](artifacts/artifacts_Day5/day5_full_batch_audit.csv)
+Threshold eligibility is 13.2% of the batch, and the final flagged fraction is 12%. The saved boundary score is `0.12990841067105013`. The 30 removals were eligible under the fixed threshold but excluded by capacity; their outcomes are unknown. Challenge labels are unavailable, so the batch cannot provide measured recall, precision, calibration or outcome-based fairness. [Batch results](artifacts/artifacts_Day5/final_policy.json)
 
 ![The challenge probability distribution and counts before and after the full-batch capacity cap.](artifacts/artifacts_Day5/day5_challenge_capacity.png)
 
@@ -271,45 +372,136 @@ Threshold eligibility is 13.2% of the batch, and the final flagged fraction is 1
 
 Gate 4's explanations describe a weighted LightGBM fitted on 2,516 rows. They do not explain the final Logistic Regression refit on 6,576 rows. New explanations must use the frozen Logistic pipeline and its preprocessing, with checks of output units, additivity, reason codes, imputation and local stability. The sigmoid mapping and the threshold-plus-cap decision require separate checks. A model-score explanation alone does not explain a removal caused by the batch cap.
 
-The supplied combined notebook has saved outputs through challenge scoring and ends at the Gate 5 reflection heading. The [standalone Gate 5 notebook](notebooks/Tamweel_aljuharaalshagri.ipynb) adds the completed reflection cell, which must be run in the notebook environment. Its checkpoint has not been reported as executed. The [reflection text](artifacts/artifacts_Day5/day5_reflection.json) is included with this update. The evidence folder contains the five saved figures and extracted tables, with their source locations; it does not reconstruct the trained model files, complete OOF predictions or complete challenge submission. [Source manifest](artifacts/artifacts_Day5/source_manifest.json)
+The current [combined notebook](notebooks/Tamweel_aljuharaalshagri.ipynb) contains 117 cells. Its saved reflection execution returns `READY_FOR_REVIEW | Missing: []`, and its later export cell records `REPLAY_MATCH` and `BUNDLE_BYTES_VERIFIED` for 48 files. The repository contains the full Gate 5 OOF table, the fitted model artifact, final policy, and complete submission, alongside the five figures. The runtime ZIP itself is not tracked. [Completed reflection](artifacts/artifacts_Day5/day5_reflection.json) · [Run record](artifacts/artifacts_Day5/day5_run.json) · [Submission manifest](submission/submission_manifest.json)
 
-The project remains a fictional training exercise using synthetic applications. The final artifact must not be used for real loan approval, rejection, pricing, credit limits or customer-facing adverse-action reasons. [Gate 5 technical report](reports/DAY5_TECHNICAL_REPORT.md) · [Editable Word report](reports/DAY5_TECHNICAL_REPORT.docx)
+The same export records `PROJECT_WORK_REQUIRED`, and the later repository self-check records `NEEDS_WORK`. These results qualify the delivery status, even though the technical run and reflection are complete. The remaining requirements are described in [Delivery checks and remaining work](#delivery-checks-and-remaining-work). [Gate 5 technical report](reports/DAY5_TECHNICAL_REPORT.md)
 
 ## Repository structure
 
-| Location | Contents |
+Repository filenames retain the original `day` and `DAY` spelling. Gate labels in this README describe the workflow without renaming those files.
+
+| Location | Contents and purpose |
 | --- | --- |
-| [Combined notebook](notebooks/Tamweel_aljuharaalshagri.ipynb) | Gates 1-5 with saved outputs; Gate 5 ends at the reflection heading |
-| [Gate 1 artifacts](artifacts/artifacts_Day1/) | Model comparison, held-out predictions, split assignments, figures and run records |
-| [Gate 2 artifacts](artifacts/artifacts_Day2/) | Leakage audits, validation scores, tuning history, OOF predictions and provenance |
-| [Gate 3 artifacts](artifacts/artifacts_Day3/) | Strategy comparison, exact threshold, loss sweep, period and regional audits, reflections and figures |
-| [Gate 4 evidence](artifacts/artifacts_Day4/) | Six original notebook figures, extracted displayed results, completed reflection and a source transcript |
-| [Gate 5 evidence](artifacts/artifacts_Day5/) | Five original notebook figures, extracted tables, full batch policy metadata, reflection text and source manifest |
-| [Gate 1 report](reports/DAY1_TECHNICAL_REPORT.md) | The baseline model choice and held-out evidence |
-| [Gate 2 report](reports/DAY2_TECHNICAL_REPORT.md) | Leakage controls and validation on later applications |
-| [Gate 3 report](reports/DAY3_TECHNICAL_REPORT.md) | The review policy, capacity tradeoff and interpretation of the selected threshold |
-| [Gate 4 report](reports/DAY4_TECHNICAL_REPORT.md) | Model explanations, calibration, stability and review capacity |
-| [Gate 5 report](reports/DAY5_TECHNICAL_REPORT.md) | Final model selection, nested OOF evidence, calibration limits, regional diagnostics and capacity |
+| [Combined notebook](notebooks/Tamweel_aljuharaalshagri.ipynb) | The single tracked notebook, with all five gates, saved results, completed reflections, export verification, and the final repository self-check. |
+| [Data](data/) | Clean training CSV, unlabeled challenge CSV, data contract, and release manifest. |
+| [Gate 1 archive](artifacts/artifacts_Day1/) | Model comparison, held-out predictions, split assignments, learning curves, and run and reflection records. |
+| [Gate 2 archive](artifacts/artifacts_Day2/) | Leakage and fold audits, validation scores, tuning history, OOF predictions, and provenance. |
+| [Gate 3 archive](artifacts/artifacts_Day3/artifacts/) | Strategy comparison, full OOF predictions, exact threshold and sweep, period and regional audits, reflection, and figures. |
+| [Gate 4 archive](artifacts/artifacts_Day4/artifacts/) | Predictions, fitted booster, SHAP arrays and metadata, permutation importance, calibration and bootstrap results, capacity diagnostics, reflection, and six figures. |
+| [Gate 5 archive](artifacts/artifacts_Day5/) | Candidate and fold scores, OOF predictions, roles and provenance, calibration predictions, final policy and model, reflection, project check, and five figures. |
+| [Runtime artifacts](artifacts/) | Flat output files used by the delivery scripts, alongside the gate archives. Some earlier archived and flat files record different executions. |
+| [Final model](artifacts/final_model/) | Frozen Logistic parameters and preprocessing, sigmoid mapping, and model manifest. |
+| [Submission CSV](submission/submission.csv) and [manifest](submission/submission_manifest.json) | 2,500 unique application IDs, probabilities, and decisions; associated file and execution metadata. |
+| [Inference entry point](scripts/inference.py) | `predict(frame, artifact_dir=None)` for probabilities from the exported artifact. The batch decision policy is applied separately. |
+| [Replay script](scripts/replay_final.py) and [rebuild script](scripts/rebuild_final.py) | Reproduce saved predictions and decisions from frozen artifacts, or rebuild the pipeline from the recorded configuration. |
+| [Gate 2 implementation](scripts/day2_validation.py), [Gate 3 implementation](scripts/day3_decision.py), [Gate 4 implementation](scripts/day4_trust.py), and [Gate 5 implementation](scripts/day5_final.py) | Modeling, validation, calibration, explanation, and policy helpers. |
+| [Delivery helpers](scripts/day5_delivery.py) | Bundle creation, file manifests, project checks, and replay support. |
+| [Requirements](requirements-colab.txt) and [constraints](constraints.txt) | Pinned numerical, modeling, plotting, and explanation dependencies. |
+| [Repository self-check](tamweel_lite_self_check.json) | Saved status and file-level findings from the final repository inspection. |
 
-## Quick start
+### Technical reports and decision records
 
-1. To run this downloaded version, upload `notebooks/Tamweel_aljuharaalshagri.ipynb` to Google Colab for the full capstone. The Colab links above load GitHub's `main` branch and reflect this version after the files are uploaded there. Select a CPU runtime; the saved results use fast mode.
-2. Choose **Runtime > Run all**. If dependency installation restarts the session, reconnect and choose **Run all** again.
-3. For Gate 2, check for `Day 2 setup verified`. The saved run completed eight tuning trials and the reflection check returned `READY_FOR_REVIEW` with no missing answers. [Gate 2 run](artifacts/artifacts_Day2/day2_run.json) · [Gate 2 reflection](artifacts/artifacts_Day2/day2_reflection.json)
-4. For Gate 3, keep `MODEL_FOR_DECISION = "weighted"` to reproduce the documented policy. Check that the source is `LIVE`, OOF coverage includes all 5,039 eligible applications, and every period passes its capacity audit. An `EDUCATIONAL_EXAMPLE` fallback is for discussion only.
-5. For Gate 4, run its setup and role-separation cells before the explanation cells. Keep `USE_SHAP_EXAMPLE = False`. The saved run reports `LIVE`, 300 SHAP sample rows, 200 bootstrap replicates and a completed reflection. Its capacity warning is an observed result that should remain visible.
-6. Run the available export cells for Gates 1-4 and download the resulting ZIPs. The combined notebook writes runtime outputs under `artifacts/`; its Gate 4 export creates `artifacts/day4_artifacts.zip` and `reports/INTERPRETABILITY_REPORT.md`. Repository evidence is organized by gate under `artifacts/artifacts_Day1/` through `artifacts/artifacts_Day5/`.
-7. The Gate 4 folder supplied with this report contains figures and displayed results extracted from the saved notebook. The notebook reports exporting 28 files, but its original ZIP was not attached. Full predictions, bootstrap replicates, SHAP arrays and the trained booster must be obtained from the notebook's runtime export. They have not been reconstructed from summary tables.
-8. For Gate 5, run the standalone notebook from its setup cell with `USE_OOF_EXAMPLE = False`. Confirm that the source is `LIVE`, inspect the model gate and calibration diagnostics, and verify the full-batch cap. An example fallback cannot support final model export or challenge submission. Run the added reflection cell after the preceding cells; no previously executed Gate 5 reflection status is claimed.
-9. The saved Gate 5 output includes evidence that model export and challenge scoring ran. To obtain the actual trained files and full prediction tables, rerun the notebook and collect them from its runtime. The supplied Gate 5 evidence contains extracted saved outputs, not a reconstructed runtime bundle.
+| Report | Coverage |
+| --- | --- |
+| [Gate 1 technical report](reports/DAY1_TECHNICAL_REPORT.md) | Baseline experiment, model choice, training behavior, and random-split limitations. |
+| [Gate 2 technical report](reports/DAY2_TECHNICAL_REPORT.md) | Leakage controls, forward validation, historical tuning, and OOF coverage. |
+| [Gate 3 technical report](reports/DAY3_TECHNICAL_REPORT.md) | Threshold selection, error costs, review capacity, and regional diagnostics. |
+| [Gate 4 technical report](reports/DAY4_TECHNICAL_REPORT.md) | Explanations, calibration, stability, and the observed capacity warning. |
+| [Gate 5 technical report](reports/DAY5_TECHNICAL_REPORT.md) | Final model choice, nested validation, calibration limits, batch policy, and delivery status. |
+| [Decision card](reports/DECISION_CARD.md) | Gate 3 operating policy. |
+| [Interpretability report](reports/INTERPRETABILITY_REPORT.md) | Gate 4 explanation and calibration record. |
+| [Ensemble decision](reports/ENSEMBLE_DECISION.md) | Final single-versus-ensemble selection. |
+| [Model card](reports/MODEL_CARD.md) | Final artifact, intended use, evidence, and limitations. |
 
-## Dataset and models
+The tracked technical reports are Markdown files. This inventory links only to files or directories present in the reviewed repository snapshot.
 
-The target, `default_within_90d`, records whether an application resulted in default within 90 days. Predictors include income in Saudi riyals and bureau score. Identifiers, dates and split-control fields are excluded from the model inputs. The recorded run used version `tamweel-lite-1.0` of the synthetic data and random seed `211`. [Environment](artifacts/artifacts_Day1/environment.json) · [Run settings](artifacts/artifacts_Day1/day1_run.json)
+## Reproducing the results
 
-## Gate 1 interpretation and limitations
+### Review or run the combined notebook
 
-Although the development and comparison sets contain distinct applications, 1,226 customers appear in both sets. This overlap motivated the Gate 2 test on later applications from customers excluded from training. I would reconsider XGBoost if another model consistently achieved higher average precision on later cohorts. [Gate 1 reflection](artifacts/artifacts_Day1/day1_reflection.json)
+1. Open the [executed notebook](notebooks/Tamweel_aljuharaalshagri.ipynb) to inspect the saved outputs, or use the [Colab link](https://colab.research.google.com/github/aljuharaalshagri/Tamweel_SDAIA_AdvanceML/blob/main/notebooks/Tamweel_aljuharaalshagri.ipynb) to run the current GitHub version.
+2. Select a CPU runtime and run each gate in order, starting with its setup cells. The recorded configuration uses `FAST_MODE = True`, `FULL_MODE = False`, `SEED = 211`, and `N_JOBS = 2`. The setup verifies pinned course sources and downloads supporting files, so a complete notebook rerun requires network access.
+3. If package installation restarts the session, reconnect and rerun from setup. The captured environment uses Python `3.13.18`; the supplied constraints describe Python 3.12 or 3.13 compatibility. Preserve the pinned dependencies when comparing results. [Recorded environment](artifacts/artifacts_Day5/environment.json)
+4. Retain the documented experimental settings: the weighted strategy for Gate 3, `USE_SHAP_EXAMPLE = False` for Gate 4, and `USE_OOF_EXAMPLE = False` for Gate 5. Inspect `LIVE` provenance and OOF coverage before interpreting an output as this project's measured result.
+5. Review calibration, regional denominators, and period or batch capacity before reading the readiness labels. Gate 4's capacity warning and Gate 5's calibration deterioration are observed findings, not errors to hide.
+6. Run the reflection and export cells after their preceding computations. Import earlier gate exports when the bundle checker requests them, then inspect the reported completeness findings. A replay match verifies prediction reproduction; it does not resolve a missing delivery file.
+
+The notebook writes flat runtime artifacts under `artifacts/`. The repository additionally preserves gate-specific archive folders. Repeated runs can change timing measurements and overwrite flat outputs; compare each numerical claim with its linked run record.
+
+### Replay the frozen final procedure locally
+
+From the repository root, in a compatible Python environment, the tracked commands are:
+
+```bash
+python -m pip install -r requirements-colab.txt -c constraints.txt
+python scripts/replay_final.py
+```
+
+The replay script loads the frozen model and policy, scores the complete challenge batch, and compares every saved probability and decision by application ID. It expects probability agreement within `1e-12` absolute tolerance and exact decision agreement, printing `REPLAY_MATCH` on success. These are the script's checks; the documentation review did not execute them again. [Replay implementation](scripts/replay_final.py) · [Batch replay helper](scripts/day5_delivery.py)
+
+For a full training and selection rebuild, the separate entry point is:
+
+```bash
+python scripts/rebuild_final.py
+```
+
+This script repeats the recorded fitting, nested candidate comparison, selection, thresholding, calibration, and full-batch decisions. It writes reconstructed model artifacts under `rebuild_check/final_model/` and checks probabilities within `1e-9` absolute tolerance plus exact decisions. Its result must be read from the new execution; the saved notebook replay is not evidence that this full rebuild has been rerun. [Rebuild implementation](scripts/rebuild_final.py)
+
+### Score and apply the policy as separate operations
+
+The `predict(frame, artifact_dir=None)` function in [scripts/inference.py](scripts/inference.py) returns application IDs and sigmoid-calibrated probabilities. Load the saved policy JSON and pass those predictions, `final_policy["calibrated_threshold"]`, and `CostPolicy(**final_policy["cost_policy"])` to `apply_batch_policy` in [scripts/day5_final.py](scripts/day5_final.py). That function receives the settings as arguments; it does not load the policy file itself. Assemble the complete intended batch before applying the cap. Applying the cap independently to chunks can change decisions, capacity rounding, and treatment of tied scores. The frozen threshold, mapping, costs, and batch audit are recorded in [final_policy.json](artifacts/final_policy.json).
+
+## Delivery checks and remaining work
+
+The repository contains substantial completed work, but its saved checkers require particular delivery layouts. Their findings should be read against those requirements.
+
+The later [repository self-check](tamweel_lite_self_check.json) reports **13 failed checks**, representing **eight distinct missing expected paths**. Five missing gate notebooks also fail separate executed-notebook checks.
+
+| Expected path | Recorded finding |
+| --- | --- |
+| `tamweel/__init__.py` | Missing expected package file. |
+| `tamweel/inference.py` | Missing expected package entry point; the repository instead contains `scripts/inference.py`. |
+| `notebooks/01_baseline_boosting.ipynb` | Missing expected separate Gate 1 notebook and its execution check. |
+| `notebooks/02_validation_tuning.ipynb` | Missing expected separate Gate 2 notebook and its execution check. |
+| `notebooks/03_cost_sensitive_decision.ipynb` | Missing expected separate Gate 3 notebook and its execution check. |
+| `notebooks/04_explain_calibrate.ipynb` | Missing expected separate Gate 4 notebook and its execution check. |
+| `notebooks/05_final_model.ipynb` | Missing expected separate Gate 5 notebook and its execution check. |
+| `notebooks/99_final_submission_check.ipynb` | Missing expected final-check notebook. |
+
+The executed combined notebook is present, as are the inference script and earlier gate archives. These findings concern the checker's expected paths and organization; they do not mean that all of the corresponding analysis is absent.
+
+The earlier [export-time project check](artifacts/artifacts_Day5/day5_project_check.json) separately expected imported evidence under `evidence/day1` through `evidence/day4`, five template-named notebooks, and `presentation/final_presentation.pdf`. It recorded `PROJECT_WORK_REQUIRED` and no receipt. The later repository self-check uses a different expected-file list and does not request that presentation. The two checks therefore describe different scopes and stages of delivery.
+
+The remaining delivery task is to align the executed evidence and inference interface with the applicable submission layout, preserve the original outputs and provenance, and rerun the relevant completeness checks. Any new status should come from that execution. Updating this README does not change the recorded check results. [Submission metadata](submission/submission_manifest.json)
+
+## Intended use and limitations
+
+This capstone is for fictional training, method comparison, and reproducible coursework. It studies ranking and review allocation on synthetic applications. It must not be used for real loan approval, rejection, pricing, credit limits, or customer-facing adverse-action reasons. The observations are not evidence about actual borrowers or regions. [Data restrictions](data/data_contract.json) · [Model card](reports/MODEL_CARD.md)
+
+The main evidence limits are:
+
+- **Selection reuse:** Gate 5's outer OOF results informed both model and threshold selection. No untouched labeled final cohort measures the whole selected procedure.
+- **Calibration scope:** Gate 4's improvement belongs to its weighted LightGBM and its evaluation role. Gate 5's sigmoid diagnostics use calibration-fit rows and worsen all three reported probability-error measures.
+- **Explanation scope:** The existing SHAP and permutation results describe the Gate 4 model. The final Logistic pipeline needs its own checked explanations, and the batch cap needs a separate decision explanation.
+- **Regional uncertainty:** OOF regional outcomes have limited positive counts and no reported regional confidence intervals. Challenge outcomes are unknown, so post-cap outcome fairness cannot be measured there.
+- **Operational scope:** A full-batch 12% cap controls workload for that batch. It does not establish a real review service's staffing needs or the consequences of delaying an eligible request.
+- **Delivery status:** Saved replay verification and completed reflections coexist with outstanding project-layout checks. They establish different parts of the coursework record.
+
+These limitations follow from the [OOF provenance](artifacts/artifacts_Day5/day5_oof_provenance.json), [calibration and threshold metrics](artifacts/artifacts_Day5/final_metrics.json), [regional audit](artifacts/artifacts_Day5/day5_region_audit.csv), [batch policy](artifacts/artifacts_Day5/final_policy.json), and [repository self-check](tamweel_lite_self_check.json).
+
+## Monitoring plan
+
+The following is a proposed plan for future controlled experiments. This repository does not demonstrate an operating monitoring service.
+
+| Timing | Checks | Follow-up |
+| --- | --- | --- |
+| Before scoring each batch | Schema, feature availability, data types, missingness, duplicate application IDs, feature distributions, and score drift against the development reference. | Investigate input changes; preserve the model version and batch identity with each result. |
+| When applying the policy | Batch size, threshold eligibility, final flags, cap removals, tied-score handling, and compliance with `floor(0.12 * batch_size)`. | Reconcile the complete batch and record why eligible requests were removed. |
+| For each region | Application counts, selection rates, threshold eligibility, and cap-removal rates with explicit denominators. | Investigate uneven patterns without treating selection parity as proof of outcome fairness. |
+| After 90-day labels mature | Default prevalence, AP, recall, precision, teaching loss, Brier, log loss, ECE, and reliability-bin counts; regional FPR and recall with uncertainty estimates. | Compare with an appropriate earlier reference and review deterioration on a fresh labeled cohort. |
+| Before accepting an update | Later-period evaluation of the complete model, calibrator, and policy; refreshed explanation checks and replay verification. | Version the change and retain its evidence. Do not retune on a period still described as an untouched evaluation. |
+
+Numerical drift-alert limits were not established by this experiment. They should be selected and assessed using the intended monitoring data. The capacity limit is already explicit; the other alerts require their own empirical justification. The plan extends the completed [Gate 5 reflection](artifacts/artifacts_Day5/day5_reflection.json) and the frozen [cost and capacity policy](artifacts/final_policy.json).
 
 ## Daily answers | الإجابات اليومية
 
@@ -337,7 +529,7 @@ For each forward fold, I trained only on earlier applications whose 90-day outco
 
 A threshold of 0.5 does not account for this policy's unequal error costs or its review limit. Missing a default costs 10 teaching units, while incorrectly flagging a non-defaulting application costs 1 unit. Reviewers can handle at most 12% of applications in each period. The weighted model at 0.5 flags 1,005 of 5,039 applications (19.94%) and fails the capacity check, despite its lower loss of 2,403 units.
 
-I therefore selected the threshold that minimizes observed loss while meeting capacity in every period: `score >= 0.6583471436014694`. It flags 526 applications, stays within all three period limits, and has a loss of 2,639 units. This choice accepts more missed defaults to keep the workload feasible. The weighted scores have not been established as calibrated probabilities, so neither 0.5 nor the theoretical cost-only threshold `1 / 11` can be assumed appropriate. The latter requires calibrated probabilities, this loss matrix and no capacity constraint. [Operating points](artifacts/artifacts_Day3/day3_operating_points.csv) · [Period audit](artifacts/artifacts_Day3/day3_period_audit.csv) · [Day 3 reflection](artifacts/artifacts_Day3/day3_reflection.json)
+I therefore selected the threshold that minimizes observed loss while meeting capacity in every period: `score >= 0.6583471436014694`. It flags 526 applications, stays within all three period limits, and has a loss of 2,639 units. This choice accepts more missed defaults to keep the workload feasible. The weighted scores have not been established as calibrated probabilities, so neither 0.5 nor the theoretical cost-only threshold `1 / 11` can be assumed appropriate. The latter requires calibrated probabilities, this loss matrix and no capacity constraint. [Operating points](artifacts/artifacts_Day3/artifacts/threshold_metrics.json) · [Period audit](artifacts/artifacts_Day3/artifacts/day3_period_capacity.csv) · [Day 3 reflection](artifacts/artifacts_Day3/artifacts/day3_reflection.json)
 
 ### Day 4 | اليوم الرابع
 
@@ -365,7 +557,7 @@ The 200 paired customer-cluster bootstrap replicates gave a 95% AP interval of [
 
 No. The candidate review queue contains 109 requests against capacity 100 in Q3 and 122 against capacity 107 in Q4. Q4 risk flags alone total 109, so removing the near-threshold band would still leave a breach. The recorded status is `CAPACITY_REVIEW_REQUIRED`. I would revise the operating policy using designated development or policy data and test it on a new held-out period, without retuning on the current evaluation set. The band is a diagnostic score range, not an individual confidence interval.
 
-The full responses are preserved in the [completed reflection](artifacts/artifacts_Day4/day4_reflection.json).
+The full responses are preserved in the [completed reflection](artifacts/artifacts_Day4/artifacts/day4_reflection.json).
 
 #### Day 4 technical report
 
@@ -379,19 +571,19 @@ The report develops these six answers with the experimental design, measured res
 
 **Why did you choose the single model or the ensemble for the final project?**
 
-I chose the single Logistic Regression model because it achieved the highest mean AP, 0.39166 with fold SD 0.02981. The weighted ensemble was closest at AP 0.38942 with SD 0.02906. Logistic had a slightly better raw OOF Brier score, 0.06327 versus 0.06332, while Weighted had lower ECE, 0.01772 versus 0.01882. No ensemble passed the worth-it gate. The small SD and ECE advantages did not justify adding several models without an AP gain. These differences support the choice made in this experiment, but do not prove statistical superiority. [Model comparison](artifacts/artifacts_Day5/day5_model_comparison.csv)
+I chose the single Logistic Regression model because it achieved the highest mean AP, 0.39166 with fold SD 0.02981. The weighted ensemble was closest at AP 0.38942 with SD 0.02906. Logistic had a slightly better raw OOF Brier score, 0.06327 versus 0.06332, while Weighted had lower ECE, 0.01772 versus 0.01882. No ensemble passed the worth-it gate. The small SD and ECE advantages did not justify adding several models without an AP gain. These differences support the choice made in this experiment, but do not prove statistical superiority. [Model comparison](artifacts/artifacts_Day5/ensemble_comparison.csv)
 
 #### 2 Validation limits
 
-The 2,155 LIVE OOF predictions cover three forward periods. The nested design separates inner ensemble fitting from outer scoring and addresses chronology, customer separation and mature 90-day labels. Warm-up rows have no outer OOF predictions. I used the outer results to select the candidate and threshold, so they remain selection evidence. Three folds and previously explored synthetic course data cannot replace an untouched later test. Fold SD is not a confidence interval, and the unlabeled challenge does not measure predictive performance. [Saved evidence](artifacts/artifacts_Day5/evidence.json)
+The 2,155 LIVE OOF predictions cover three forward periods. The nested design separates inner ensemble fitting from outer scoring and addresses chronology, customer separation and mature 90-day labels. Warm-up rows have no outer OOF predictions. I used the outer results to select the candidate and threshold, so they remain selection evidence. Three folds and previously explored synthetic course data cannot replace an untouched later test. Fold SD is not a confidence interval, and the unlabeled challenge does not measure predictive performance. [Saved evidence](artifacts/artifacts_Day5/final_metrics.json)
 
 #### 3 Calibration limits
 
-The 836 calibration applications, with 78 positives, were held out from classifier fitting. The displayed sigmoid diagnostics nevertheless use the same rows that fitted the mapping. Brier worsened from 0.076473 to 0.078058, log loss from 0.266489 to 0.277296, and ECE from 0.021121 to 0.034871. AP and ROC-AUC stayed unchanged. I cannot claim a calibration benefit; the frozen mapping needs independent evaluation on a later labeled cohort. [Calibration diagnostics](artifacts/artifacts_Day5/day5_calibration_diagnostics.csv)
+The 836 calibration applications, with 78 positives, were held out from classifier fitting. The displayed sigmoid diagnostics nevertheless use the same rows that fitted the mapping. Brier worsened from 0.076473 to 0.078058, log loss from 0.266489 to 0.277296, and ECE from 0.021121 to 0.034871. AP and ROC-AUC stayed unchanged. I cannot claim a calibration benefit; the frozen mapping needs independent evaluation on a later labeled cohort. [Calibration diagnostics](artifacts/artifacts_Day5/final_metrics.json)
 
 #### 4 Capacity and fairness
 
-I applied the 12% cap once to the complete batch of 2,500 requests. It retained 300 of 330 threshold-eligible flags and removed 30 whose outcomes are unknown. Regional OOF FPR divides false positives by actual negatives: 39/489 in central, 50/486 in western, 32/507 in eastern and 40/494 in other. The largest FPR gap is about 3.98 percentage points. Recall uses actual positives, with only 35-49 per region. Capacity compliance does not establish fairness; selection and cap-removal patterns need regional checks, followed by outcome-based checks once labels mature. [Batch audit](artifacts/artifacts_Day5/day5_full_batch_audit_full_metadata.csv) · [Regional audit](artifacts/artifacts_Day5/day5_regional_audit.csv)
+I applied the 12% cap once to the complete batch of 2,500 requests. It retained 300 of 330 threshold-eligible flags and removed 30 whose outcomes are unknown. Regional OOF FPR divides false positives by actual negatives: 39/489 in central, 50/486 in western, 32/507 in eastern and 40/494 in other. The largest FPR gap is about 3.98 percentage points. Recall uses actual positives, with only 35-49 per region. Capacity compliance does not establish fairness; selection and cap-removal patterns need regional checks, followed by outcome-based checks once labels mature. [Batch audit](artifacts/artifacts_Day5/final_policy.json) · [Regional audit](artifacts/artifacts_Day5/day5_region_audit.csv)
 
 #### 5 Explanation scope
 
@@ -413,7 +605,7 @@ For each batch I would check schema, feature availability, missingness, duplicat
 
 I selected Logistic Regression with mean AP 0.39166 and fold SD 0.02981, compared with AP 0.38942 for the weighted ensemble. No ensemble justified its added complexity. The full-batch 12% cap retained 300 of 2,500 requests and removed 30 of the 330 eligible flags. Sigmoid calibration worsened Brier from 0.076473 to 0.078058. Independent calibration evaluation and explanations for the final model are still needed. This artifact is restricted to fictional training use.
 
-The nine answers are included in the [Day 5 reflection](artifacts/artifacts_Day5/day5_reflection.json) and the standalone notebook. The reflection code is complete but has not been executed as part of this documentation update.
+The nine answers are included in the [Day 5 reflection](artifacts/artifacts_Day5/day5_reflection.json) and the [combined notebook](notebooks/Tamweel_aljuharaalshagri.ipynb). The saved reflection execution returned `READY_FOR_REVIEW | Missing: []`. This records completion of the answer fields, while the project packaging checks still report outstanding items.
 
 [Read the Day 5 technical report](reports/DAY5_TECHNICAL_REPORT.md) 
 
