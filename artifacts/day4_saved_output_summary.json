@@ -1,0 +1,973 @@
+{
+  "schema_version": 1,
+  "provenance": {
+    "kind": "extracted_saved_notebook_output",
+    "source_notebook": "Tamweel_aljuharaalshagri(2).ipynb",
+    "source_notebook_sha256": "82c3892c67d0b1e3af355f42ca26a918e4ba4efc9994fff280dc02e86aedca19",
+    "source_cell_indices_are_zero_based": true,
+    "precision": "Tables contain only displayed rows and displayed precision. displayed_records preserves the exact cell text; records converts those same strings to JSON numbers or booleans where possible.",
+    "scope": "This summary is not the full runtime export bundle.",
+    "runtime_reexecuted": false,
+    "original_runtime_zip_supplied": false,
+    "full_predictions_model_npz_or_bootstrap_rows_recreated": false
+  },
+  "tables": {
+    "role_summary": {
+      "source_cell_index": 68,
+      "source_output_index": 0,
+      "execution_count": 34,
+      "source_mime_type": "text/html",
+      "columns": [
+        "role",
+        "rows",
+        "customers",
+        "positives",
+        "positive_rate",
+        "first_date",
+        "last_date"
+      ],
+      "row_labels_as_displayed": [
+        "0",
+        "1",
+        "2",
+        "3"
+      ],
+      "displayed_records": [
+        {
+          "role": "fit",
+          "rows": "2516",
+          "customers": "1853",
+          "positives": "217",
+          "positive_rate": "0.086248",
+          "first_date": "2022-01-01",
+          "last_date": "2023-04-01"
+        },
+        {
+          "role": "calibration",
+          "rows": "584",
+          "customers": "538",
+          "positives": "40",
+          "positive_rate": "0.068493",
+          "first_date": "2023-07-01",
+          "last_date": "2023-09-30"
+        },
+        {
+          "role": "policy",
+          "rows": "589",
+          "customers": "566",
+          "positives": "55",
+          "positive_rate": "0.093379",
+          "first_date": "2024-01-01",
+          "last_date": "2024-03-31"
+        },
+        {
+          "role": "evaluation",
+          "rows": "1733",
+          "customers": "1520",
+          "positives": "139",
+          "positive_rate": "0.080208",
+          "first_date": "2024-07-01",
+          "last_date": "2024-12-31"
+        }
+      ],
+      "records": [
+        {
+          "role": "fit",
+          "rows": 2516,
+          "customers": 1853,
+          "positives": 217,
+          "positive_rate": 0.086248,
+          "first_date": "2022-01-01",
+          "last_date": "2023-04-01"
+        },
+        {
+          "role": "calibration",
+          "rows": 584,
+          "customers": 538,
+          "positives": 40,
+          "positive_rate": 0.068493,
+          "first_date": "2023-07-01",
+          "last_date": "2023-09-30"
+        },
+        {
+          "role": "policy",
+          "rows": 589,
+          "customers": 566,
+          "positives": 55,
+          "positive_rate": 0.093379,
+          "first_date": "2024-01-01",
+          "last_date": "2024-03-31"
+        },
+        {
+          "role": "evaluation",
+          "rows": 1733,
+          "customers": 1520,
+          "positives": 139,
+          "positive_rate": 0.080208,
+          "first_date": "2024-07-01",
+          "last_date": "2024-12-31"
+        }
+      ]
+    },
+    "permutation_top10": {
+      "source_cell_index": 70,
+      "source_output_index": 0,
+      "execution_count": 35,
+      "source_mime_type": "text/html",
+      "columns": [
+        "feature_group",
+        "mean_ap_drop",
+        "repeat_sd",
+        "training_gain"
+      ],
+      "row_labels_as_displayed": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9"
+      ],
+      "displayed_records": [
+        {
+          "feature_group": "bureau_score",
+          "mean_ap_drop": "0.1270",
+          "repeat_sd": "0.0235",
+          "training_gain": "8922.6701"
+        },
+        {
+          "feature_group": "dti",
+          "mean_ap_drop": "0.0690",
+          "repeat_sd": "0.0200",
+          "training_gain": "6423.5164"
+        },
+        {
+          "feature_group": "loan_amount_sar",
+          "mean_ap_drop": "0.0140",
+          "repeat_sd": "0.0095",
+          "training_gain": "2372.2859"
+        },
+        {
+          "feature_group": "savings_balance_sar",
+          "mean_ap_drop": "0.0094",
+          "repeat_sd": "0.0032",
+          "training_gain": "2129.8893"
+        },
+        {
+          "feature_group": "prior_defaults",
+          "mean_ap_drop": "0.0065",
+          "repeat_sd": "0.0021",
+          "training_gain": "1109.2766"
+        },
+        {
+          "feature_group": "recent_inquiries",
+          "mean_ap_drop": "0.0064",
+          "repeat_sd": "0.0089",
+          "training_gain": "902.9509"
+        },
+        {
+          "feature_group": "income_sar",
+          "mean_ap_drop": "0.0062",
+          "repeat_sd": "0.0058",
+          "training_gain": "2214.5619"
+        },
+        {
+          "feature_group": "utilization_ratio",
+          "mean_ap_drop": "0.0057",
+          "repeat_sd": "0.0011",
+          "training_gain": "2035.9451"
+        },
+        {
+          "feature_group": "region_indicators_joint",
+          "mean_ap_drop": "0.0047",
+          "repeat_sd": "0.0020",
+          "training_gain": "360.9725"
+        },
+        {
+          "feature_group": "months_employed",
+          "mean_ap_drop": "0.0025",
+          "repeat_sd": "0.0044",
+          "training_gain": "2482.2264"
+        }
+      ],
+      "records": [
+        {
+          "feature_group": "bureau_score",
+          "mean_ap_drop": 0.127,
+          "repeat_sd": 0.0235,
+          "training_gain": 8922.6701
+        },
+        {
+          "feature_group": "dti",
+          "mean_ap_drop": 0.069,
+          "repeat_sd": 0.02,
+          "training_gain": 6423.5164
+        },
+        {
+          "feature_group": "loan_amount_sar",
+          "mean_ap_drop": 0.014,
+          "repeat_sd": 0.0095,
+          "training_gain": 2372.2859
+        },
+        {
+          "feature_group": "savings_balance_sar",
+          "mean_ap_drop": 0.0094,
+          "repeat_sd": 0.0032,
+          "training_gain": 2129.8893
+        },
+        {
+          "feature_group": "prior_defaults",
+          "mean_ap_drop": 0.0065,
+          "repeat_sd": 0.0021,
+          "training_gain": 1109.2766
+        },
+        {
+          "feature_group": "recent_inquiries",
+          "mean_ap_drop": 0.0064,
+          "repeat_sd": 0.0089,
+          "training_gain": 902.9509
+        },
+        {
+          "feature_group": "income_sar",
+          "mean_ap_drop": 0.0062,
+          "repeat_sd": 0.0058,
+          "training_gain": 2214.5619
+        },
+        {
+          "feature_group": "utilization_ratio",
+          "mean_ap_drop": 0.0057,
+          "repeat_sd": 0.0011,
+          "training_gain": 2035.9451
+        },
+        {
+          "feature_group": "region_indicators_joint",
+          "mean_ap_drop": 0.0047,
+          "repeat_sd": 0.002,
+          "training_gain": 360.9725
+        },
+        {
+          "feature_group": "months_employed",
+          "mean_ap_drop": 0.0025,
+          "repeat_sd": 0.0044,
+          "training_gain": 2482.2264
+        }
+      ]
+    },
+    "shap_global_top10": {
+      "source_cell_index": 72,
+      "source_output_index": 0,
+      "execution_count": 36,
+      "source_mime_type": "text/html",
+      "columns": [
+        "feature",
+        "mean_absolute_shap_log_odds"
+      ],
+      "row_labels_as_displayed": [
+        "4",
+        "5",
+        "2",
+        "10",
+        "9",
+        "8",
+        "6",
+        "1",
+        "7",
+        "13"
+      ],
+      "displayed_records": [
+        {
+          "feature": "bureau_score",
+          "mean_absolute_shap_log_odds": "0.9042"
+        },
+        {
+          "feature": "dti",
+          "mean_absolute_shap_log_odds": "0.5437"
+        },
+        {
+          "feature": "loan_amount_sar",
+          "mean_absolute_shap_log_odds": "0.3490"
+        },
+        {
+          "feature": "savings_balance_sar",
+          "mean_absolute_shap_log_odds": "0.2169"
+        },
+        {
+          "feature": "existing_obligations_sar",
+          "mean_absolute_shap_log_odds": "0.2022"
+        },
+        {
+          "feature": "prior_defaults",
+          "mean_absolute_shap_log_odds": "0.1830"
+        },
+        {
+          "feature": "months_employed",
+          "mean_absolute_shap_log_odds": "0.1584"
+        },
+        {
+          "feature": "income_sar",
+          "mean_absolute_shap_log_odds": "0.1549"
+        },
+        {
+          "feature": "recent_inquiries",
+          "mean_absolute_shap_log_odds": "0.1492"
+        },
+        {
+          "feature": "utilization_ratio",
+          "mean_absolute_shap_log_odds": "0.1287"
+        }
+      ],
+      "records": [
+        {
+          "feature": "bureau_score",
+          "mean_absolute_shap_log_odds": 0.9042
+        },
+        {
+          "feature": "dti",
+          "mean_absolute_shap_log_odds": 0.5437
+        },
+        {
+          "feature": "loan_amount_sar",
+          "mean_absolute_shap_log_odds": 0.349
+        },
+        {
+          "feature": "savings_balance_sar",
+          "mean_absolute_shap_log_odds": 0.2169
+        },
+        {
+          "feature": "existing_obligations_sar",
+          "mean_absolute_shap_log_odds": 0.2022
+        },
+        {
+          "feature": "prior_defaults",
+          "mean_absolute_shap_log_odds": 0.183
+        },
+        {
+          "feature": "months_employed",
+          "mean_absolute_shap_log_odds": 0.1584
+        },
+        {
+          "feature": "income_sar",
+          "mean_absolute_shap_log_odds": 0.1549
+        },
+        {
+          "feature": "recent_inquiries",
+          "mean_absolute_shap_log_odds": 0.1492
+        },
+        {
+          "feature": "utilization_ratio",
+          "mean_absolute_shap_log_odds": 0.1287
+        }
+      ]
+    },
+    "local_reasons": {
+      "source_cell_index": 74,
+      "source_output_index": 1,
+      "execution_count": 37,
+      "source_mime_type": "text/html",
+      "columns": [
+        "feature",
+        "value_used",
+        "was_imputed",
+        "contribution_log_odds",
+        "reason_ar"
+      ],
+      "row_labels_as_displayed": [
+        "0",
+        "1",
+        "2"
+      ],
+      "displayed_records": [
+        {
+          "feature": "bureau_score",
+          "value_used": "497.0000",
+          "was_imputed": "False",
+          "contribution_log_odds": "2.269325",
+          "reason_ar": "استخدم النموذج درجة ائتمانية اصطناعية عند الطل..."
+        },
+        {
+          "feature": "dti",
+          "value_used": "1.2806",
+          "was_imputed": "False",
+          "contribution_log_odds": "1.198145",
+          "reason_ar": "استخدم النموذج نسبة الالتزام مع القسط المقترح ..."
+        },
+        {
+          "feature": "loan_amount_sar",
+          "value_used": "93437.2900",
+          "was_imputed": "False",
+          "contribution_log_odds": "0.200725",
+          "reason_ar": "استخدم النموذج مبلغ التمويل المطلوب بالقيمة 93..."
+        }
+      ],
+      "records": [
+        {
+          "feature": "bureau_score",
+          "value_used": 497.0,
+          "was_imputed": false,
+          "contribution_log_odds": 2.269325,
+          "reason_ar": "استخدم النموذج درجة ائتمانية اصطناعية عند الطل..."
+        },
+        {
+          "feature": "dti",
+          "value_used": 1.2806,
+          "was_imputed": false,
+          "contribution_log_odds": 1.198145,
+          "reason_ar": "استخدم النموذج نسبة الالتزام مع القسط المقترح ..."
+        },
+        {
+          "feature": "loan_amount_sar",
+          "value_used": 93437.29,
+          "was_imputed": false,
+          "contribution_log_odds": 0.200725,
+          "reason_ar": "استخدم النموذج مبلغ التمويل المطلوب بالقيمة 93..."
+        }
+      ],
+      "text_precision_note": "The saved HTML truncates reason_ar with ellipses. Those fragments are preserved exactly; the complete runtime reason text is unavailable here."
+    },
+    "local_stability": {
+      "source_cell_index": 74,
+      "source_output_index": 3,
+      "execution_count": 37,
+      "source_mime_type": "text/html",
+      "columns": [
+        "perturbation",
+        "bureau_score_used",
+        "raw_probability",
+        "calibrated_probability",
+        "top_positive_features",
+        "shared_top_reasons",
+        "reference_reasons",
+        "source"
+      ],
+      "row_labels_as_displayed": [
+        "0",
+        "1",
+        "2"
+      ],
+      "displayed_records": [
+        {
+          "perturbation": "bureau_score +0",
+          "bureau_score_used": "497.0",
+          "raw_probability": "0.903079",
+          "calibrated_probability": "0.479518",
+          "top_positive_features": "bureau_score|dti|loan_amount_sar",
+          "shared_top_reasons": "3",
+          "reference_reasons": "3",
+          "source": "LIVE"
+        },
+        {
+          "perturbation": "bureau_score -1",
+          "bureau_score_used": "496.0",
+          "raw_probability": "0.903079",
+          "calibrated_probability": "0.479518",
+          "top_positive_features": "bureau_score|dti|loan_amount_sar",
+          "shared_top_reasons": "3",
+          "reference_reasons": "3",
+          "source": "LIVE"
+        },
+        {
+          "perturbation": "bureau_score +1",
+          "bureau_score_used": "498.0",
+          "raw_probability": "0.903079",
+          "calibrated_probability": "0.479518",
+          "top_positive_features": "bureau_score|dti|loan_amount_sar",
+          "shared_top_reasons": "3",
+          "reference_reasons": "3",
+          "source": "LIVE"
+        }
+      ],
+      "records": [
+        {
+          "perturbation": "bureau_score +0",
+          "bureau_score_used": 497.0,
+          "raw_probability": 0.903079,
+          "calibrated_probability": 0.479518,
+          "top_positive_features": "bureau_score|dti|loan_amount_sar",
+          "shared_top_reasons": 3,
+          "reference_reasons": 3,
+          "source": "LIVE"
+        },
+        {
+          "perturbation": "bureau_score -1",
+          "bureau_score_used": 496.0,
+          "raw_probability": 0.903079,
+          "calibrated_probability": 0.479518,
+          "top_positive_features": "bureau_score|dti|loan_amount_sar",
+          "shared_top_reasons": 3,
+          "reference_reasons": 3,
+          "source": "LIVE"
+        },
+        {
+          "perturbation": "bureau_score +1",
+          "bureau_score_used": 498.0,
+          "raw_probability": 0.903079,
+          "calibrated_probability": 0.479518,
+          "top_positive_features": "bureau_score|dti|loan_amount_sar",
+          "shared_top_reasons": 3,
+          "reference_reasons": 3,
+          "source": "LIVE"
+        }
+      ]
+    },
+    "calibration_metrics": {
+      "source_cell_index": 76,
+      "source_output_index": 0,
+      "execution_count": 38,
+      "source_mime_type": "text/html",
+      "columns": [
+        "rows",
+        "positives",
+        "roc_auc",
+        "average_precision",
+        "brier",
+        "ece",
+        "log_loss"
+      ],
+      "row_labels_as_displayed": [
+        "raw",
+        "sigmoid"
+      ],
+      "displayed_records": [
+        {
+          "rows": "1733",
+          "positives": "139",
+          "roc_auc": "0.770804",
+          "average_precision": "0.258677",
+          "brier": "0.113027",
+          "ece": "0.146871",
+          "log_loss": "0.357993"
+        },
+        {
+          "rows": "1733",
+          "positives": "139",
+          "roc_auc": "0.770804",
+          "average_precision": "0.258677",
+          "brier": "0.067112",
+          "ece": "0.022486",
+          "log_loss": "0.246749"
+        }
+      ],
+      "records": [
+        {
+          "rows": 1733,
+          "positives": 139,
+          "roc_auc": 0.770804,
+          "average_precision": 0.258677,
+          "brier": 0.113027,
+          "ece": 0.146871,
+          "log_loss": 0.357993
+        },
+        {
+          "rows": 1733,
+          "positives": 139,
+          "roc_auc": 0.770804,
+          "average_precision": 0.258677,
+          "brier": 0.067112,
+          "ece": 0.022486,
+          "log_loss": 0.246749
+        }
+      ]
+    },
+    "quarterly_metrics": {
+      "source_cell_index": 78,
+      "source_output_index": 0,
+      "execution_count": 39,
+      "source_mime_type": "text/html",
+      "columns": [
+        "period",
+        "variant",
+        "rows",
+        "positives",
+        "average_precision",
+        "brier",
+        "ece"
+      ],
+      "row_labels_as_displayed": [
+        "0",
+        "1",
+        "2",
+        "3"
+      ],
+      "displayed_records": [
+        {
+          "period": "2024Q3",
+          "variant": "raw",
+          "rows": "836",
+          "positives": "78",
+          "average_precision": "0.27457",
+          "brier": "0.11528",
+          "ece": "0.13397"
+        },
+        {
+          "period": "2024Q3",
+          "variant": "sigmoid",
+          "rows": "836",
+          "positives": "78",
+          "average_precision": "0.27457",
+          "brier": "0.07760",
+          "ece": "0.03229"
+        },
+        {
+          "period": "2024Q4",
+          "variant": "raw",
+          "rows": "897",
+          "positives": "61",
+          "average_precision": "0.27050",
+          "brier": "0.11093",
+          "ece": "0.15890"
+        },
+        {
+          "period": "2024Q4",
+          "variant": "sigmoid",
+          "rows": "897",
+          "positives": "61",
+          "average_precision": "0.27050",
+          "brier": "0.05734",
+          "ece": "0.02434"
+        }
+      ],
+      "records": [
+        {
+          "period": "2024Q3",
+          "variant": "raw",
+          "rows": 836,
+          "positives": 78,
+          "average_precision": 0.27457,
+          "brier": 0.11528,
+          "ece": 0.13397
+        },
+        {
+          "period": "2024Q3",
+          "variant": "sigmoid",
+          "rows": 836,
+          "positives": 78,
+          "average_precision": 0.27457,
+          "brier": 0.0776,
+          "ece": 0.03229
+        },
+        {
+          "period": "2024Q4",
+          "variant": "raw",
+          "rows": 897,
+          "positives": 61,
+          "average_precision": 0.2705,
+          "brier": 0.11093,
+          "ece": 0.1589
+        },
+        {
+          "period": "2024Q4",
+          "variant": "sigmoid",
+          "rows": 897,
+          "positives": 61,
+          "average_precision": 0.2705,
+          "brier": 0.05734,
+          "ece": 0.02434
+        }
+      ]
+    },
+    "bootstrap_intervals": {
+      "source_cell_index": 78,
+      "source_output_index": 2,
+      "execution_count": 39,
+      "source_mime_type": "text/html",
+      "columns": [
+        "lower",
+        "upper"
+      ],
+      "row_labels_as_displayed": [
+        "raw_ap",
+        "calibrated_ap",
+        "brier_change"
+      ],
+      "displayed_records": [
+        {
+          "lower": "0.197442",
+          "upper": "0.337854"
+        },
+        {
+          "lower": "0.197442",
+          "upper": "0.337854"
+        },
+        {
+          "lower": "-0.054177",
+          "upper": "-0.037409"
+        }
+      ],
+      "records": [
+        {
+          "lower": 0.197442,
+          "upper": 0.337854
+        },
+        {
+          "lower": 0.197442,
+          "upper": 0.337854
+        },
+        {
+          "lower": -0.054177,
+          "upper": -0.037409
+        }
+      ]
+    },
+    "displayed_policy_threshold": {
+      "source_cell_index": 80,
+      "source_output_index": 0,
+      "execution_count": 40,
+      "source_mime_type": "text/html",
+      "columns": [
+        "threshold",
+        "flagged",
+        "fn",
+        "fp",
+        "loss_units",
+        "capacity",
+        "feasible",
+        "calibrated_threshold",
+        "selection_role"
+      ],
+      "row_labels_as_displayed": [
+        "0"
+      ],
+      "displayed_records": [
+        {
+          "threshold": "0.588195",
+          "flagged": "68",
+          "fn": "34",
+          "fp": "47",
+          "loss_units": "387.0",
+          "capacity": "70",
+          "feasible": "True",
+          "calibrated_threshold": "0.17331",
+          "selection_role": "policy"
+        }
+      ],
+      "records": [
+        {
+          "threshold": 0.588195,
+          "flagged": 68,
+          "fn": 34,
+          "fp": 47,
+          "loss_units": 387.0,
+          "capacity": 70,
+          "feasible": true,
+          "calibrated_threshold": 0.17331,
+          "selection_role": "policy"
+        }
+      ]
+    },
+    "capacity_audit": {
+      "source_cell_index": 80,
+      "source_output_index": 1,
+      "execution_count": 40,
+      "source_mime_type": "text/html",
+      "columns": [
+        "period",
+        "rows",
+        "capacity",
+        "risk_flags",
+        "near_threshold",
+        "candidate_review",
+        "risk_within_capacity",
+        "candidate_within_capacity",
+        "loss_units"
+      ],
+      "row_labels_as_displayed": [
+        "0",
+        "1"
+      ],
+      "displayed_records": [
+        {
+          "period": "2024Q3",
+          "rows": "836",
+          "capacity": "100",
+          "risk_flags": "97",
+          "near_threshold": "23",
+          "candidate_review": "109",
+          "risk_within_capacity": "True",
+          "candidate_within_capacity": "False",
+          "loss_units": "536.0"
+        },
+        {
+          "period": "2024Q4",
+          "rows": "897",
+          "capacity": "107",
+          "risk_flags": "109",
+          "near_threshold": "21",
+          "candidate_review": "122",
+          "risk_within_capacity": "False",
+          "candidate_within_capacity": "False",
+          "loss_units": "444.0"
+        }
+      ],
+      "records": [
+        {
+          "period": "2024Q3",
+          "rows": 836,
+          "capacity": 100,
+          "risk_flags": 97,
+          "near_threshold": 23,
+          "candidate_review": 109,
+          "risk_within_capacity": true,
+          "candidate_within_capacity": false,
+          "loss_units": 536.0
+        },
+        {
+          "period": "2024Q4",
+          "rows": 897,
+          "capacity": 107,
+          "risk_flags": 109,
+          "near_threshold": 21,
+          "candidate_review": 122,
+          "risk_within_capacity": false,
+          "candidate_within_capacity": false,
+          "loss_units": 444.0
+        }
+      ]
+    }
+  },
+  "displayed_scalars": {
+    "excluded_gaps_customer_overlaps": {
+      "source_cell_index": 68,
+      "value_as_displayed": "4578"
+    },
+    "maximum_shap_additivity_error": {
+      "source_cell_index": 72,
+      "value_as_displayed": "5.6968318951078345e-15"
+    },
+    "local_prediction": {
+      "source_cell_index": 74,
+      "application_id": "TR-009585",
+      "raw_score_as_displayed": "0.9031",
+      "calibrated_probability_as_displayed": "0.4795"
+    },
+    "measured_calibration_change": {
+      "source_cell_index": 76,
+      "definition_as_displayed": "after - before",
+      "brier_as_displayed": "-0.04592",
+      "ece_as_displayed": "-0.12438"
+    }
+  },
+  "statuses": {
+    "saved_checkpoint": {
+      "status": "READY_FOR_REVIEW",
+      "missing": []
+    },
+    "checkpoint_source_cell_index": 82,
+    "technical_status": "TECHNICAL_READY",
+    "learner_status": "READY_FOR_REVIEW",
+    "explanation_source": "LIVE",
+    "execution_device": "CPU",
+    "capacity_status": "CAPACITY_REVIEW_REQUIRED",
+    "export_source_cell_index": 84,
+    "reported_runtime_zip_filename": "day4_artifacts.zip",
+    "reported_runtime_zip_file_count": 28,
+    "runtime_zip_availability": "The notebook records this export; the original ZIP was not supplied.",
+    "saved_checkpoint_output": "READY_FOR_REVIEW | Fields to complete: []",
+    "saved_capacity_output": "CAPACITY_REVIEW_REQUIRED | Do not retune on evaluation.",
+    "saved_export_output": "TECHNICAL_READY | READY_FOR_REVIEW | LIVE | CPU\nSaved 28 files in day4_artifacts.zip | CAPACITY_REVIEW_REQUIRED"
+  },
+  "environment": {
+    "source_cell_index": 66,
+    "packages_as_displayed": {
+      "numpy": "2.1.3",
+      "pandas": "2.2.3",
+      "scipy": "1.16.3",
+      "scikit-learn": "1.6.1",
+      "matplotlib": "3.10.0",
+      "xgboost": "3.4.1",
+      "lightgbm": "4.6.0",
+      "shap": "0.52.0",
+      "numba": "0.61.2",
+      "optuna": "4.5.0"
+    },
+    "python": "3.13.18",
+    "device": "CPU",
+    "seed": 211,
+    "n_jobs": 2,
+    "fast_mode": true,
+    "saved_output": "Package                 Version\nnumpy                   2.1.3\npandas                  2.2.3\nscipy                   1.16.3\nscikit-learn            1.6.1\nmatplotlib              3.10.0\nxgboost                 3.4.1\nlightgbm                4.6.0\nshap                    0.52.0\nnumba                   0.61.2\noptuna                  4.5.0\nPython 3.13.18 | CPU | seed=211 | n_jobs=2 | FAST_MODE=True\nVerified course files. Next: run the data and compatibility checks.\nDay 4 setup verified | إعداد اليوم الرابع جاهز\n"
+  },
+  "embedded_figures": [
+    {
+      "filename": "permutation_importance.png",
+      "source_cell_index": 70,
+      "source_output_index": 1,
+      "source_mime_type": "image/png",
+      "extraction": "Exact base64-decoded notebook display bytes; no image transformation.",
+      "filename_basis": "The savefig filename in the same notebook cell.",
+      "provenance_note": "This is the embedded display image; the original runtime savefig file was not supplied.",
+      "width_pixels": 1573,
+      "height_pixels": 613,
+      "bytes": 86046,
+      "sha256": "fd108bbe435afe8dc9812011fd54d86121e28e1ce80e98a554a771ece6efbbc5"
+    },
+    {
+      "filename": "shap_beeswarm.png",
+      "source_cell_index": 72,
+      "source_output_index": 1,
+      "source_mime_type": "image/png",
+      "extraction": "Exact base64-decoded notebook display bytes; no image transformation.",
+      "filename_basis": "The savefig filename in the same notebook cell.",
+      "provenance_note": "This is the embedded display image; the original runtime savefig file was not supplied.",
+      "width_pixels": 1279,
+      "height_pixels": 705,
+      "bytes": 156102,
+      "sha256": "889109e087db962b47bbd82f2d45707f42205ac43eb89a2c66be1d9c4f993033"
+    },
+    {
+      "filename": "shap_waterfall.png",
+      "source_cell_index": 74,
+      "source_output_index": 2,
+      "source_mime_type": "image/png",
+      "extraction": "Exact base64-decoded notebook display bytes; no image transformation.",
+      "filename_basis": "The savefig filename in the same notebook cell.",
+      "provenance_note": "This is the embedded display image; the original runtime savefig file was not supplied.",
+      "width_pixels": 1183,
+      "height_pixels": 769,
+      "bytes": 82857,
+      "sha256": "18634c705e81b6f9c7485a71676219d16da67423c2b7ff36ee52ede66e7feb33"
+    },
+    {
+      "filename": "reliability_curve.png",
+      "source_cell_index": 76,
+      "source_output_index": 2,
+      "source_mime_type": "image/png",
+      "extraction": "Exact base64-decoded notebook display bytes; no image transformation.",
+      "filename_basis": "The savefig filename in the same notebook cell.",
+      "provenance_note": "This is the embedded display image; the original runtime savefig file was not supplied.",
+      "width_pixels": 1213,
+      "height_pixels": 973,
+      "bytes": 102498,
+      "sha256": "dc46f4ce42dd929c7907d72ef650a885e1eac895a2613c1697e5e4bb24512b02"
+    },
+    {
+      "filename": "stability_summary.png",
+      "source_cell_index": 78,
+      "source_output_index": 3,
+      "source_mime_type": "image/png",
+      "extraction": "Exact base64-decoded notebook display bytes; no image transformation.",
+      "filename_basis": "The savefig filename in the same notebook cell.",
+      "provenance_note": "This is the embedded display image; the original runtime savefig file was not supplied.",
+      "width_pixels": 1453,
+      "height_pixels": 493,
+      "bytes": 42380,
+      "sha256": "21adbe7d2c1743fdc0107d352ab5e21f643a8642f270737323855959098a72a8"
+    },
+    {
+      "filename": "review_zone.png",
+      "source_cell_index": 80,
+      "source_output_index": 3,
+      "source_mime_type": "image/png",
+      "extraction": "Exact base64-decoded notebook display bytes; no image transformation.",
+      "filename_basis": "The savefig filename in the same notebook cell.",
+      "provenance_note": "This is the embedded display image; the original runtime savefig file was not supplied.",
+      "width_pixels": 1453,
+      "height_pixels": 553,
+      "bytes": 65825,
+      "sha256": "a748a1b08c69c8994b644ca22b731aa9d0cb477f8c8d6d4c57df626f1c0d8e5e"
+    }
+  ]
+}
