@@ -447,32 +447,6 @@ python scripts/rebuild_final.py
 
 This script repeats the recorded fitting, nested candidate comparison, selection, thresholding, calibration, and full-batch decisions. It writes reconstructed model artifacts under `rebuild_check/final_model/` and checks probabilities within `1e-9` absolute tolerance plus exact decisions. Its result must be read from the new execution; the saved notebook replay is not evidence that this full rebuild has been rerun. [Rebuild implementation](scripts/rebuild_final.py)
 
-### Score and apply the policy as separate operations
-
-The `predict(frame, artifact_dir=None)` function in [scripts/inference.py](scripts/inference.py) returns application IDs and sigmoid-calibrated probabilities. Load the saved policy JSON and pass those predictions, `final_policy["calibrated_threshold"]`, and `CostPolicy(**final_policy["cost_policy"])` to `apply_batch_policy` in [scripts/day5_final.py](scripts/day5_final.py). That function receives the settings as arguments; it does not load the policy file itself. Assemble the complete intended batch before applying the cap. Applying the cap independently to chunks can change decisions, capacity rounding, and treatment of tied scores. The frozen threshold, mapping, costs, and batch audit are recorded in [final_policy.json](artifacts/final_policy.json).
-
-## Delivery checks and remaining work
-
-The repository contains substantial completed work, but its saved checkers require particular delivery layouts. Their findings should be read against those requirements.
-
-The later [repository self-check](tamweel_lite_self_check.json) reports **13 failed checks**, representing **eight distinct missing expected paths**. Five missing gate notebooks also fail separate executed-notebook checks.
-
-| Expected path | Recorded finding |
-| --- | --- |
-| `tamweel/__init__.py` | Missing expected package file. |
-| `tamweel/inference.py` | Missing expected package entry point; the repository instead contains `scripts/inference.py`. |
-| `notebooks/01_baseline_boosting.ipynb` | Missing expected separate Gate 1 notebook and its execution check. |
-| `notebooks/02_validation_tuning.ipynb` | Missing expected separate Gate 2 notebook and its execution check. |
-| `notebooks/03_cost_sensitive_decision.ipynb` | Missing expected separate Gate 3 notebook and its execution check. |
-| `notebooks/04_explain_calibrate.ipynb` | Missing expected separate Gate 4 notebook and its execution check. |
-| `notebooks/05_final_model.ipynb` | Missing expected separate Gate 5 notebook and its execution check. |
-| `notebooks/99_final_submission_check.ipynb` | Missing expected final-check notebook. |
-
-The executed combined notebook is present, as are the inference script and earlier gate archives. These findings concern the checker's expected paths and organization; they do not mean that all of the corresponding analysis is absent.
-
-The earlier [export-time project check](artifacts/artifacts_Day5/day5_project_check.json) separately expected imported evidence under `evidence/day1` through `evidence/day4`, five template-named notebooks, and `presentation/final_presentation.pdf`. It recorded `PROJECT_WORK_REQUIRED` and no receipt. The later repository self-check uses a different expected-file list and does not request that presentation. The two checks therefore describe different scopes and stages of delivery.
-
-The remaining delivery task is to align the executed evidence and inference interface with the applicable submission layout, preserve the original outputs and provenance, and rerun the relevant completeness checks. Any new status should come from that execution. Updating this README does not change the recorded check results. [Submission metadata](submission/submission_manifest.json)
 
 ## Intended use and limitations
 
