@@ -58,7 +58,7 @@ Permutation importance measures the change in evaluation average precision when 
 
 Bureau score and debt-to-income ratio have substantially larger measured AP decreases than the remaining displayed inputs. Training gain does not reproduce the complete permutation order: months employed has more gain than loan amount but a smaller evaluation AP decrease. Several smaller effects also have appreciable variation across shuffles. These observations support reading the two measures together instead of treating training gain as a complete evaluation result [1].
 
-![Training gain and evaluation permutation importance](../artifacts/artifacts_Day4/permutation_importance.png)
+![Training gain and evaluation permutation importance](../artifacts/artifacts_Day4/artifacts/permutation_importance.png)
 
 Figure 1. Saved comparison of training gain and evaluation AP decrease. Whiskers show repeat standard deviation, not confidence intervals. Region indicators are permuted jointly. Source: [1], Day 4 Section 3, execution 35.
 
@@ -68,7 +68,7 @@ The LIVE global explanation covers 300 sampled evaluation requests. It averages 
 
 The agreement between the leading SHAP and permutation features supports their prominence in this fitted model. The measures still answer different questions: SHAP attributes model output, while permutation measures a ranking loss after disrupting an input. Correlated inputs can share information, so neither ranking identifies an isolated causal effect or the benefit of changing an applicant's circumstances [1].
 
-![Global SHAP contributions for sampled evaluation requests](../artifacts/artifacts_Day4/shap_beeswarm.png)
+![Global SHAP contributions for sampled evaluation requests](../artifacts/artifacts_Day4/artifacts/shap_beeswarm.png)
 
 Figure 2. Saved LIVE SHAP beeswarm. Each displayed contribution is to the raw log-odds output; the global summary describes the sampled requests. Source: [1], Day 4 Section 4, execution 36.
 
@@ -86,7 +86,7 @@ All three displayed values were observed. These are the leading positive reasons
 
 The maximum recorded additivity error was approximately 5.7e-15. This establishes numerical agreement between the SHAP decomposition and the explained raw margin. It does not establish that the probability is accurate for this individual. Applying a sigmoid separately to individual SHAP values would also not produce additive probability contributions [1].
 
-![Local SHAP waterfall for TR-009585](../artifacts/artifacts_Day4/shap_waterfall.png)
+![Local SHAP waterfall for TR-009585](../artifacts/artifacts_Day4/artifacts/shap_waterfall.png)
 
 Figure 3. Saved local waterfall for the highest-scoring request in the SHAP sample. Its units are raw log-odds. Source: [1], Day 4 Section 5, execution 37.
 
@@ -106,7 +106,7 @@ The sigmoid calibrator was fitted on its designated role, which contained 584 ap
 
 The printed after-minus-before changes are -0.04592 for Brier score and -0.12438 for ECE. Ranking was preserved, as shown by identical AP and ROC-AUC. Calibration therefore improved the measured probability assessment without improving discrimination between defaults and non-defaults in this run [1].
 
-![Reliability curves and probability bin counts](../artifacts/artifacts_Day4/reliability_curve.png)
+![Reliability curves and probability bin counts](../artifacts/artifacts_Day4/artifacts/reliability_curve.png)
 
 Figure 4. Saved reliability comparison with ten equal-width probability bins. The upper panel compares mean probability with observed event rate; the lower panel shows bin counts. Source: [1], Day 4 Section 6, execution 38.
 
@@ -131,7 +131,7 @@ The Brier-change interval is entirely negative, supporting the observed improvem
 
 Quarterly AP values are close, and calibration improves Brier score in both periods. Two quarters provide limited temporal evidence, however. The pooled AP of 0.258677 is calculated over all evaluation requests and should not be replaced by an average of the quarterly AP values [1].
 
-![Customer-cluster bootstrap intervals and Brier changes](../artifacts/artifacts_Day4/stability_summary.png)
+![Customer-cluster bootstrap intervals and Brier changes](../artifacts/artifacts_Day4/artifacts/stability_summary.png)
 
 Figure 5. Saved AP intervals and distribution of Brier changes with the model and calibrator fixed. Source: [1], Day 4 Section 7, execution 39.
 
@@ -150,7 +150,7 @@ The diagnostic review band extends 0.02 on either side of the calibrated thresho
 
 The band adds 12 applications beyond risk flags in Q3 and 13 in Q4. Simply adding each near-threshold count to its flag count would double-count overlaps. More fundamentally, Q4 already has 109 risk flags against capacity for 107. Removing the band alone would therefore leave a capacity breach at the frozen threshold [1].
 
-![Calibration mapping and quarterly review capacity](../artifacts/artifacts_Day4/review_zone.png)
+![Calibration mapping and quarterly review capacity](../artifacts/artifacts_Day4/artifacts/review_zone.png)
 
 Figure 6. Saved threshold mapping, diagnostic review band and quarterly capacity comparison. Both candidate queues exceed their limits. Source: [1], Day 4 Section 8, execution 40.
 
