@@ -1,0 +1,388 @@
+{
+  "status": "NEEDS_WORK",
+  "files_to_fix": 13,
+  "manual_review_notes": 0,
+  "checks": [
+    {
+      "status": "OK",
+      "file": "README.md",
+      "how_to_fix": ""
+    },
+    {
+      "status": "OK",
+      "file": "requirements-colab.txt",
+      "how_to_fix": ""
+    },
+    {
+      "status": "OK",
+      "file": "constraints.txt",
+      "how_to_fix": ""
+    },
+    {
+      "status": "OK",
+      "file": "data/data_contract.json",
+      "how_to_fix": ""
+    },
+    {
+      "status": "OK",
+      "file": "data/data_manifest.json",
+      "how_to_fix": ""
+    },
+    {
+      "status": "OK",
+      "file": "data/tamweel_train.csv",
+      "how_to_fix": ""
+    },
+    {
+      "status": "OK",
+      "file": "data/tamweel_challenge.csv",
+      "how_to_fix": ""
+    },
+    {
+      "status": "FIX",
+      "file": "tamweel/__init__.py",
+      "how_to_fix": "Upload the original nonempty file from your Colab run or the extracted Day 5 bundle."
+    },
+    {
+      "status": "FIX",
+      "file": "tamweel/inference.py",
+      "how_to_fix": "Upload the original nonempty file from your Colab run or the extracted Day 5 bundle."
+    },
+    {
+      "status": "OK",
+      "file": "scripts/inference.py",
+      "how_to_fix": ""
+    },
+    {
+      "status": "OK",
+      "file": "scripts/rebuild_final.py",
+      "how_to_fix": ""
+    },
+    {
+      "status": "OK",
+      "file": "submission/submission.csv",
+      "how_to_fix": ""
+    },
+    {
+      "status": "OK",
+      "file": "artifacts/final_model/model.json",
+      "how_to_fix": ""
+    },
+    {
+      "status": "OK",
+      "file": "artifacts/final_model/model_manifest.json",
+      "how_to_fix": ""
+    },
+    {
+      "status": "OK",
+      "file": "artifacts/day5_run.json",
+      "how_to_fix": ""
+    },
+    {
+      "status": "OK",
+      "file": "artifacts/environment.json",
+      "how_to_fix": ""
+    },
+    {
+      "status": "OK",
+      "file": "artifacts/day5_oof_predictions.csv",
+      "how_to_fix": ""
+    },
+    {
+      "status": "OK",
+      "file": "artifacts/day5_fold_scores.csv",
+      "how_to_fix": ""
+    },
+    {
+      "status": "OK",
+      "file": "artifacts/ensemble_comparison.csv",
+      "how_to_fix": ""
+    },
+    {
+      "status": "OK",
+      "file": "artifacts/final_metrics.json",
+      "how_to_fix": ""
+    },
+    {
+      "status": "OK",
+      "file": "artifacts/final_policy.json",
+      "how_to_fix": ""
+    },
+    {
+      "status": "OK",
+      "file": "artifacts/day5_oof_provenance.json",
+      "how_to_fix": ""
+    },
+    {
+      "status": "OK",
+      "file": "artifacts/day5_final_provenance.json",
+      "how_to_fix": ""
+    },
+    {
+      "status": "OK",
+      "file": "artifacts/day5_ensemble_gate.json",
+      "how_to_fix": ""
+    },
+    {
+      "status": "OK",
+      "file": "artifacts/day5_diversity.png",
+      "how_to_fix": ""
+    },
+    {
+      "status": "OK",
+      "file": "artifacts/day5_ensemble_comparison.png",
+      "how_to_fix": ""
+    },
+    {
+      "status": "OK",
+      "file": "artifacts/day5_policy_regions.png",
+      "how_to_fix": ""
+    },
+    {
+      "status": "OK",
+      "file": "artifacts/day5_calibration_fit.png",
+      "how_to_fix": ""
+    },
+    {
+      "status": "OK",
+      "file": "artifacts/day5_challenge_capacity.png",
+      "how_to_fix": ""
+    },
+    {
+      "status": "OK",
+      "file": "reports/MODEL_CARD.md",
+      "how_to_fix": ""
+    },
+    {
+      "status": "OK",
+      "file": "reports/ENSEMBLE_DECISION.md",
+      "how_to_fix": ""
+    },
+    {
+      "status": "FIX",
+      "file": "notebooks/01_baseline_boosting.ipynb",
+      "how_to_fix": "Upload the original nonempty file from your Colab run or the extracted Day 5 bundle."
+    },
+    {
+      "status": "FIX",
+      "file": "notebooks/02_validation_tuning.ipynb",
+      "how_to_fix": "Upload the original nonempty file from your Colab run or the extracted Day 5 bundle."
+    },
+    {
+      "status": "FIX",
+      "file": "notebooks/03_cost_sensitive_decision.ipynb",
+      "how_to_fix": "Upload the original nonempty file from your Colab run or the extracted Day 5 bundle."
+    },
+    {
+      "status": "FIX",
+      "file": "notebooks/04_explain_calibrate.ipynb",
+      "how_to_fix": "Upload the original nonempty file from your Colab run or the extracted Day 5 bundle."
+    },
+    {
+      "status": "FIX",
+      "file": "notebooks/05_final_model.ipynb",
+      "how_to_fix": "Upload the original nonempty file from your Colab run or the extracted Day 5 bundle."
+    },
+    {
+      "status": "FIX",
+      "file": "notebooks/99_final_submission_check.ipynb",
+      "how_to_fix": "Upload the original nonempty file from your Colab run or the extracted Day 5 bundle."
+    },
+    {
+      "status": "OK",
+      "file": "artifacts/day1_model_comparison.csv",
+      "how_to_fix": ""
+    },
+    {
+      "status": "OK",
+      "file": "artifacts/day1_comparison_predictions.csv",
+      "how_to_fix": ""
+    },
+    {
+      "status": "OK",
+      "file": "artifacts/day1_split_membership.csv",
+      "how_to_fix": ""
+    },
+    {
+      "status": "OK",
+      "file": "artifacts/day1_learning_curves.png",
+      "how_to_fix": ""
+    },
+    {
+      "status": "OK",
+      "file": "artifacts/day1_roc_pr.png",
+      "how_to_fix": ""
+    },
+    {
+      "status": "OK",
+      "file": "artifacts/validation_summary.csv",
+      "how_to_fix": ""
+    },
+    {
+      "status": "OK",
+      "file": "artifacts/leakage_audit.csv",
+      "how_to_fix": ""
+    },
+    {
+      "status": "OK",
+      "file": "artifacts/fold_audit.csv",
+      "how_to_fix": ""
+    },
+    {
+      "status": "OK",
+      "file": "artifacts/optuna_results.csv",
+      "how_to_fix": ""
+    },
+    {
+      "status": "OK",
+      "file": "artifacts/best_params.json",
+      "how_to_fix": ""
+    },
+    {
+      "status": "OK",
+      "file": "artifacts/day2_validation_comparison.png",
+      "how_to_fix": ""
+    },
+    {
+      "status": "OK",
+      "file": "artifacts/threshold_metrics.json",
+      "how_to_fix": ""
+    },
+    {
+      "status": "OK",
+      "file": "artifacts/threshold_sweep.csv",
+      "how_to_fix": ""
+    },
+    {
+      "status": "OK",
+      "file": "artifacts/day3_oof_predictions.csv",
+      "how_to_fix": ""
+    },
+    {
+      "status": "OK",
+      "file": "artifacts/day3_region_audit.csv",
+      "how_to_fix": ""
+    },
+    {
+      "status": "OK",
+      "file": "artifacts/cost_curve.png",
+      "how_to_fix": ""
+    },
+    {
+      "status": "OK",
+      "file": "artifacts/calibration_metrics.json",
+      "how_to_fix": ""
+    },
+    {
+      "status": "OK",
+      "file": "artifacts/permutation_importance.csv",
+      "how_to_fix": ""
+    },
+    {
+      "status": "OK",
+      "file": "artifacts/day4_shap_metadata.json",
+      "how_to_fix": ""
+    },
+    {
+      "status": "OK",
+      "file": "artifacts/day4_stability_summary.json",
+      "how_to_fix": ""
+    },
+    {
+      "status": "OK",
+      "file": "artifacts/shap_beeswarm.png",
+      "how_to_fix": ""
+    },
+    {
+      "status": "OK",
+      "file": "artifacts/shap_waterfall.png",
+      "how_to_fix": ""
+    },
+    {
+      "status": "OK",
+      "file": "artifacts/reliability_curve.png",
+      "how_to_fix": ""
+    },
+    {
+      "status": "OK",
+      "file": "Day 1 / run record",
+      "how_to_fix": ""
+    },
+    {
+      "status": "OK",
+      "file": "Day 2 / run record",
+      "how_to_fix": ""
+    },
+    {
+      "status": "OK",
+      "file": "Day 3 / run record",
+      "how_to_fix": ""
+    },
+    {
+      "status": "OK",
+      "file": "Day 4 / run record",
+      "how_to_fix": ""
+    },
+    {
+      "status": "OK",
+      "file": "Day 5 / run record",
+      "how_to_fix": ""
+    },
+    {
+      "status": "FIX",
+      "file": "notebooks/01_baseline_boosting.ipynb (executed)",
+      "how_to_fix": "File missing or empty. Upload the original file to this path."
+    },
+    {
+      "status": "FIX",
+      "file": "notebooks/02_validation_tuning.ipynb (executed)",
+      "how_to_fix": "File missing or empty. Upload the original file to this path."
+    },
+    {
+      "status": "FIX",
+      "file": "notebooks/03_cost_sensitive_decision.ipynb (executed)",
+      "how_to_fix": "File missing or empty. Upload the original file to this path."
+    },
+    {
+      "status": "FIX",
+      "file": "notebooks/04_explain_calibrate.ipynb (executed)",
+      "how_to_fix": "File missing or empty. Upload the original file to this path."
+    },
+    {
+      "status": "FIX",
+      "file": "notebooks/05_final_model.ipynb (executed)",
+      "how_to_fix": "File missing or empty. Upload the original file to this path."
+    },
+    {
+      "status": "OK",
+      "file": "README.md / daily answers",
+      "how_to_fix": ""
+    },
+    {
+      "status": "OK",
+      "file": "submission/submission.csv (predictions)",
+      "how_to_fix": ""
+    },
+    {
+      "status": "OK",
+      "file": "artifacts/final_policy.json (content)",
+      "how_to_fix": ""
+    },
+    {
+      "status": "OK",
+      "file": "artifacts/final_metrics.json (content)",
+      "how_to_fix": ""
+    },
+    {
+      "status": "OK",
+      "file": "artifacts/final_model/model.json (content)",
+      "how_to_fix": ""
+    },
+    {
+      "status": "OK",
+      "file": "artifacts/final_model/model_manifest.json (content)",
+      "how_to_fix": ""
+    }
+  ],
+  "source": "aljuharaalshagri/Tamweel_SDAIA_AdvanceML (default branch)"
+}
